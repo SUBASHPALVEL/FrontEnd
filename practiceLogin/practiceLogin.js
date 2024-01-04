@@ -25,7 +25,6 @@ loginButton.addEventListener("click", async (e) => {
 
     if (loginResponse.success) {
       localStorage.setItem("userId", loginResponse.userId);
-      console.log(userId);
       showFor4SecondsForSuccess();
       resetForm();
       // Handle successful login, e.g., redirect to a different page
@@ -52,7 +51,7 @@ async function loginUser(email, password) {
 
     const data = await response.json();
 
-
+    // You may customize this based on the actual response structure from your server
     return {
       success: response.ok,
       message: data.message,
