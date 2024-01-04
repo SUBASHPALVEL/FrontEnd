@@ -21,17 +21,18 @@ loginButton.addEventListener("click", async (e) => {
     emailError.textContent = "Email is required";
   } else {
     // Send login request to the server
-    const loginResponse = await loginUser(emailInputValue, passwordInputValue);
-
-    if (loginResponse.success) {
-      localStorage.setItem("userId", loginResponse.userId);
-      showFor4SecondsForSuccess();
-      resetForm();
+    login();
+    const userId = localStorage.getItem("userId");
+    if (userId !== undefined) {
+        showFor4SecondsForSuccess();
+        resetForm();
       // Handle successful login, e.g., redirect to a different page
-      window.location.href = "../userTasks/userTasks.html";
-    } else {
-      showFor4SecondsForFailure();
-      resetForm();
+        window.location.href = "../userTasks/userTasks.html";
+  } else {
+    showFor4SecondsForFailure();
+    resetForm();
+
+
     }
   }
 });

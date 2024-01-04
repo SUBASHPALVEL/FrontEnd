@@ -5,64 +5,57 @@ const successMessage = document.getElementById("successMessage");
 const failureMessage = document.getElementById("failureMessage");
 const formContainer = document.querySelector(".container");
 
-let emailInputValue;
-let passwordInputValue;
+let usermail;
+let password;
 
 loginButton.addEventListener("click", async (e) => {
   e.preventDefault();
 
   // Capture email and password input values
-  emailInputValue = document.getElementById("Email").value;
-  passwordInputValue = document.getElementById("Password").value;
+  usermail = document.getElementById("Email").value;
+  password = document.getElementById("Password").value;
 
   // Validate email and password
-  if (!emailInputValue.trim() && !passwordInputValue.trim()) {
+  if (!usermail.trim() && !password.trim()) {
     passwordError.textContent = "Password is required";
     emailError.textContent = "Email is required";
   } else {
     // Send login request to the server
-    const loginResponse = await loginUser(emailInputValue, passwordInputValue);
-
-    if (loginResponse.success) {
-      localStorage.setItem("userId", loginResponse.userId);
-      showFor4SecondsForSuccess();
-      resetForm();
+    login();
+    const userId = localStorage.getItem("userId");
+    if (userId !== undefined) {
+        showFor4SecondsForSuccess();
+        resetForm();
       // Handle successful login, e.g., redirect to a different page
-      window.location.href = "../userTasks/userTasks.html";
-    } else {
-      showFor4SecondsForFailure();
-      resetForm();
-    }
+        window.location.href = "../userTasks/userTasks.html";
+  } else {
+    showFor4SecondsForFailure();
+    resetForm();
   }
-});
+  }
 
-async function loginUser(email, password) {
-  try {
-    const response = await fetch("http://localhost:8080/api/users/login", {
-      method: "POST",
+function login() {
+  const usermail = document.getElementById('usermail').value;
+  const password = document.getElementById('password').value;
+
+  // Assuming you have a server endpoint at http://localhost:8080/api/users/login
+  fetch('http://localhost:8080/api/users/login', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+          'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        usermail: email,
-        password: password,
-      }),
-    });
-
-    const data = await response.json();
-
-    // You may customize this based on the actual response structure from your server
-    return {
-      success: response.ok,
-      message: data.message,
-    };
-  } catch (error) {
-    console.error("Error during login:", error);
-    return {
-      success: false,
-      message: "An error occurred during login.",
-    };
-  }
+      body: JSON.stringify({ usermail, password }),
+  })
+  .then(response => response.json())
+  .then(data => {
+      // Handle the response from the server
+      console.log(data.userId);
+      localStorage.setItem("userId",data.userId);
+      // You can redirect or perform other actions based on the response
+  })
+  .catch(error => {
+      console.error('Error:', error);
+  });
 }
 
 function showFor4SecondsForSuccess() {
@@ -87,4 +80,5 @@ function resetForm() {
   document.getElementById("loginForm").reset();
   emailInputValue = undefined;
   passwordInputValue = undefined;
+}
 }
