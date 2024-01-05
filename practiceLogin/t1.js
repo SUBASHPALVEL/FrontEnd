@@ -20,23 +20,11 @@ loginButton.addEventListener("click", async (e) => {
     passwordError.textContent = "Password is required";
     emailError.textContent = "Email is required";
   } else {
-    // Send login request to the server
     login();
-    const userId = localStorage.getItem("userId");
-    if (userId !== undefined) {
-        showFor4SecondsForSuccess();
-        resetForm();
-      // Handle successful login, e.g., redirect to a different page
-        window.location.href = "../userTasks/userTasks.html";
-  } else {
-    showFor4SecondsForFailure();
-    resetForm();
   }
-  }
+});
 
 function login() {
-  const usermail = document.getElementById('usermail').value;
-  const password = document.getElementById('password').value;
 
   // Assuming you have a server endpoint at http://localhost:8080/api/users/login
   fetch('http://localhost:8080/api/users/login', {
@@ -49,9 +37,19 @@ function login() {
   .then(response => response.json())
   .then(data => {
       // Handle the response from the server
-      console.log(data.userId);
-      localStorage.setItem("userId",data.userId);
-      // You can redirect or perform other actions based on the response
+      if (data.userId == undefined) {
+          console.log("No user");
+          showFor4SecondsForFailure();
+          resetForm();
+    } else {
+          console.log(data.userId);
+          localStorage.setItem("userId",data.userId);
+          showFor4SecondsForSuccess();
+          resetForm();
+          // window.location.href = "../userTasks/userTasks.html";
+          
+      
+    }
   })
   .catch(error => {
       console.error('Error:', error);
@@ -64,7 +62,8 @@ function showFor4SecondsForSuccess() {
   setTimeout(() => {
     successMessage.style.display = "none";
     formContainer.style.opacity = "1";
-  }, 3000);
+  }, 30000);
+ 
 }
 
 function showFor4SecondsForFailure() {
@@ -74,11 +73,11 @@ function showFor4SecondsForFailure() {
     failureMessage.style.display = "none";
     formContainer.style.opacity = "1";
   }, 3000);
+  
 }
 
 function resetForm() {
   document.getElementById("loginForm").reset();
-  emailInputValue = undefined;
-  passwordInputValue = undefined;
 }
-}
+
+

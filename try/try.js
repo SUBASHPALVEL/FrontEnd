@@ -13,9 +13,13 @@ function login() {
     .then(response => response.json())
     .then(data => {
         // Handle the response from the server
-        console.log(data.userId);
-        localStorage.setItem("userId",data.userId);
-        // You can redirect or perform other actions based on the response
+        if (data.userId == undefined) {
+            console.log("No user");
+      } else {
+            console.log(data.userId);
+            localStorage.setItem("userId",data.userId);
+            const userId = localStorage.getItem("userId");
+      }
     })
     .catch(error => {
         console.error('Error:', error);
