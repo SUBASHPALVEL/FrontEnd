@@ -45,8 +45,7 @@ function login() {
           console.log(data.userId);
           localStorage.setItem("userId",data.userId);
           showFor4SecondsForSuccess();
-          resetForm();
-          // window.location.href = "../userTasks/userTasks.html";
+       
           
       
     }
@@ -62,7 +61,9 @@ function showFor4SecondsForSuccess() {
   setTimeout(() => {
     successMessage.style.display = "none";
     formContainer.style.opacity = "1";
-  }, 30000);
+    resetForm();
+    window.location.href = "../userTasks/userTasks.html";
+  }, 4000);
  
 }
 
@@ -72,7 +73,7 @@ function showFor4SecondsForFailure() {
   setTimeout(() => {
     failureMessage.style.display = "none";
     formContainer.style.opacity = "1";
-  }, 3000);
+  }, 4000);
   
 }
 
