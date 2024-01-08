@@ -31,6 +31,7 @@ function createUser() {
 
                 // Display the response on the webpage
                 document.getElementById("responseMessage").innerHTML = "User created successfully";
+                window.location.href = "../practiceLogin/practiceLogin.html";
             } else {
                 // Handle the error response
                 console.error("Error creating user. Status code: " + xhr.status);

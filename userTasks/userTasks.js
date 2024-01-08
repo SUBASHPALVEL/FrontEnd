@@ -6,16 +6,16 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
     }
 
-    fetch("http://localhost:8080/api/users/" + userId + "/tasks")
+    fetch("http://localhost:8080/api/tasks/userTasks/1")
         .then(response => response.json())
         .then(tasks => {
-            var tableBody = document.getElementById("task-table-body");
+            let tableBody = document.getElementById("task-table-body");
 
             tasks.forEach(task => {
-                var row = document.createElement("tr");
+                let row = document.createElement("tr");
 
                 row.innerHTML = `
-                    <td>${task.id}</td>
+                    <td>${task.taskId}</td>
                     <td>${task.title}</td>
                     <td>${task.description}</td>
                     <td>${task.priority}</td>
@@ -23,10 +23,10 @@ document.addEventListener("DOMContentLoaded", function () {
                     <td>${task.createdDate}</td>
                     <td>${task.dueDate}</td>
                     <td>${task.completedDate}</td>
-                    <td>${task.assignedUsers.map(user => user.username).join(", ")}</td>
+                    <td>${task.assignedUsers ? task.assignedUsers.map(user => user.username).join(", ") : ''}</td>
                     <td>
-                        <span class="edit-btn" data-id="${task.id}">Edit</span>
-                        <span class="delete-btn" data-id="${task.id}">Delete</span>
+                        <span class="edit-btn" data-id="${task.taskId}">Edit</span>
+                        <span class="delete-btn" data-id="${task.taskId}">Delete</span>
                     </td>
                 `;
 
