@@ -1,68 +1,58 @@
 const loginButton = document.querySelector("#submitButton");
-const emailError = document.querySelector("#emailError");
+const userNameError = document.querySelector("#userNameError");
 const passwordError = document.querySelector("#passwordError");
 const successMessage = document.getElementById("successMessage");
 const failureMessage = document.getElementById("failureMessage");
 const formContainer = document.querySelector(".container");
 
-let emailInputValue;
-let passwordInputValue;
+let userName;
+let password;
 
 loginButton.addEventListener("click", async (e) => {
   e.preventDefault();
 
-  // Capture email and password input values
-  emailInputValue = document.getElementById("Email").value;
-  passwordInputValue = document.getElementById("Password").value;
+  // Capture userName and password input values
+  userName = document.getElementById("UserName").value;
+  password = document.getElementById("Password").value;
 
-  // Validate email and password
-  if (!emailInputValue.trim() && !passwordInputValue.trim()) {
+  // Validate userName and password
+  if (!userName.trim() && !password.trim()) {
     passwordError.textContent = "Password is required";
-    emailError.textContent = "Email is required";
+    userNameError.textContent = "User Name is required";
   } else {
-    // Send login request to the server
-    const loginResponse = await loginUser(emailInputValue, passwordInputValue);
-
-    if (loginResponse.success) {
-      localStorage.setItem("userId", loginResponse.userId);
-      showFor4SecondsForSuccess();
-      resetForm();
-      // Handle successful login, e.g., redirect to a different page
-      window.location.href = "../userTasks/userTasks.html";
-    } else {
-      showFor4SecondsForFailure();
-      resetForm();
-    }
+    login();
   }
 });
 
-async function loginUser(email, password) {
-  try {
-    const response = await fetch("http://localhost:8080/api/users/login", {
-      method: "POST",
+function login() {
+
+
+  fetch('http://127.0.0.1:8080/auth/admin/login', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+          'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        usermail: email,
-        password: password,
-      }),
-    });
-
-    const data = await response.json();
-
-    // You may customize this based on the actual response structure from your server
-    return {
-      success: response.ok,
-      message: data.message,
-    };
-  } catch (error) {
-    console.error("Error during login:", error);
-    return {
-      success: false,
-      message: "An error occurred during login.",
-    };
-  }
+      body: JSON.stringify({ userName, password }),
+  })
+  .then(response => response.json())
+  .then(data => {
+      // Handle the response from the server
+      if (data.userId == undefined) {
+          console.log("No user");
+          showFor4SecondsForFailure();
+          resetForm();
+    } else {
+          localStorage.setItem("userId",data.userId);
+          localStorage.setItem("token",data.token);
+          showFor4SecondsForSuccess();
+       
+          
+      
+    }
+  })
+  .catch(error => {
+      console.error('Error:', error);
+  });
 }
 
 function showFor4SecondsForSuccess() {
@@ -71,7 +61,10 @@ function showFor4SecondsForSuccess() {
   setTimeout(() => {
     successMessage.style.display = "none";
     formContainer.style.opacity = "1";
-  }, 3000);
+    resetForm();
+    window.location.href = "../userTasks/userTasks.html";
+  }, 4000);
+ 
 }
 
 function showFor4SecondsForFailure() {
@@ -80,11 +73,12 @@ function showFor4SecondsForFailure() {
   setTimeout(() => {
     failureMessage.style.display = "none";
     formContainer.style.opacity = "1";
-  }, 3000);
+  }, 4000);
+  
 }
 
 function resetForm() {
   document.getElementById("loginForm").reset();
-  emailInputValue = undefined;
-  passwordInputValue = undefined;
 }
+
+
