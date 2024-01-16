@@ -1,34 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Task Management</title>
-    <link rel="stylesheet" href="userTasks.css">
-</head>
-<body>
+    <link rel="stylesheet" href="userTasks.css" />
+  </head>
+  <body>
     <div class="container">
-        <h1>Task Management</h1>
+      <h1>Task Management
+        <div class="buttons-right">
+            <button type="button" class="homeButton" onclick="handleHome()" >Home</button>
+        </div>
+        <div class="buttons-left">
+            <img src="../Images/refresh.png" alt="Refresh Icon" class="refreshIcon" id="refreshIcon"></img>
+            <button type="button" class="refreshButton" onclick="handleRefresh()" >Refresh List</button>
+            <button type="button" class="logoutButton" onclick="handleLogout()" >Logout</button>
+        </div>
+      </h1>
+      
+      <div class="table-container">
         <table id="task-table">
-            <thead>
-                <tr>
-                    <th>Task ID</th>
-                    <th>Title</th>
-                    <th>Description</th>
-                    <th>Priority</th>
-                    <th>Status</th>
-                    <th>Created Date</th>
-                    <th>Due Date</th>
-                    <th>Completed Date</th>
-                    <th>Assigned Users</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody id="task-table-body">
-                <!-- Tasks will be dynamically added here -->
-            </tbody>
+          <thead>
+            <tr>
+              <th>Task ID</th>
+              <th>Title</th>
+              <th>Description</th>
+              <th>Priority</th>
+              <th>Status</th>
+              <th>Created Date</th>
+              <th>Modified Date</th>
+              <th>Due Date</th>
+              <th>Completed Date</th>
+              <th>Assigned Users</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="task-table-body">
+            <!-- Tasks will be dynamically added here -->
+          </tbody>
         </table>
+      </div>
+      <img src="../Images/NoData.jpg" alt="No Data" class="no-Data">
+    <img src="../Images/loading.gif" alt="Loading" class="loadingGif" id="loadingGif"></img>
+    
     </div>
+     
     <script src="userTasks.js"></script>
-</body>
+  </body>
 </html>
