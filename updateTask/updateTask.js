@@ -1,7 +1,7 @@
 
 
 
-const token = "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoic3ViYSIsImlhdCI6MTcwNTM5NDY3Nywicm9sZXMiOiJST0xFX0FETUlOIn0.FN1dV7Tu27C0ItF1alH9IJpy6hnnslSlO8tHG_AoTsGfZMkXukmpA3Xg2QCzs3jysk5YryovXqWBE41hnWJPyIcbGrTygtO0tSuV2_XChOv2JJjjwXsqI8Q6M70etHqzf6QSiyoBJO1F8L6inzk3Lc2szKu6wzALhTcl8YsnJ5uOfW3x5wisHmHsdNOoEpMzb22b8q4LqLQuTALCMFeZZIcQCw1qMN928KzMeeYvGWQA6LsV93GNj517Y3yvN_I5kHxAc2sNfgNWXM7q1zjZz1CdxBoMpDzE6hLluU8iS9uECi8uR5zdlvkph3Jfot3pUnvJ7ifDLyi5wpbRCf5ZCQ"; // Replace with your actual bearer token
+const token = "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoic2siLCJpYXQiOjE3MDU0MTA2MDgsInJvbGVzIjoiUk9MRV9BRE1JTiJ9.zMOnasBmirIVXSOSxSPOqqWttuomlqmY9XLcst22QcS8_n2tcgG4dTgk_aNwVrwcgsNV4_WS3wMdZWMhnEtrP6wgA37d6hB_z5lSJs5MIhefAEYA7aOmu-jfFEcU3G6Chva_j9jbMDxEi7fhSYO1qYP57CR3U-AzDJivwuvuMVwSWUkUwq8f7sWByiIbi9yTTJWQ7NycVIg2pKhQJkcOVKZpa8w1qg8Zf03RT5KRCNPeH_kXmRWWrx9hmEIaJlGtlmcOoPO-zeEWgwLkW5QF0boioQHkZ1kt3EP1AslGocWJQUOjciQ7-aemPhY_kzuMfYEfFGH-4aS2TtadnvcMQQ"; // Replace with your actual bearer token
 
 
 // Fetch status options from the API with a bearer token
@@ -137,7 +137,7 @@ fetchPriorityOptions();
 
 // Function to update task details
 async function updateTask() {
-const token = "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoic3ViYSIsImlhdCI6MTcwNTM5NDY3Nywicm9sZXMiOiJST0xFX0FETUlOIn0.FN1dV7Tu27C0ItF1alH9IJpy6hnnslSlO8tHG_AoTsGfZMkXukmpA3Xg2QCzs3jysk5YryovXqWBE41hnWJPyIcbGrTygtO0tSuV2_XChOv2JJjjwXsqI8Q6M70etHqzf6QSiyoBJO1F8L6inzk3Lc2szKu6wzALhTcl8YsnJ5uOfW3x5wisHmHsdNOoEpMzb22b8q4LqLQuTALCMFeZZIcQCw1qMN928KzMeeYvGWQA6LsV93GNj517Y3yvN_I5kHxAc2sNfgNWXM7q1zjZz1CdxBoMpDzE6hLluU8iS9uECi8uR5zdlvkph3Jfot3pUnvJ7ifDLyi5wpbRCf5ZCQ"; // Replace with your actual bearer token
+const token = "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoic2siLCJpYXQiOjE3MDU0MTA2MDgsInJvbGVzIjoiUk9MRV9BRE1JTiJ9.zMOnasBmirIVXSOSxSPOqqWttuomlqmY9XLcst22QcS8_n2tcgG4dTgk_aNwVrwcgsNV4_WS3wMdZWMhnEtrP6wgA37d6hB_z5lSJs5MIhefAEYA7aOmu-jfFEcU3G6Chva_j9jbMDxEi7fhSYO1qYP57CR3U-AzDJivwuvuMVwSWUkUwq8f7sWByiIbi9yTTJWQ7NycVIg2pKhQJkcOVKZpa8w1qg8Zf03RT5KRCNPeH_kXmRWWrx9hmEIaJlGtlmcOoPO-zeEWgwLkW5QF0boioQHkZ1kt3EP1AslGocWJQUOjciQ7-aemPhY_kzuMfYEfFGH-4aS2TtadnvcMQQ"; // Replace with your actual bearer token
 
    const apiUrl = `http://127.0.0.1:8080/tasks/29`; // Assuming 1 is the task ID
 
@@ -175,26 +175,26 @@ const token = "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoic3ViYSIsImlhdCI6
 
 
     try {
-        const response =  fetch (apiUrl, {
+            fetch (apiUrl, {
             method: "PUT",
             headers: {
                 "Authorization": `Bearer ${token}`,
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(updatedTask)
-        });
-
-        if (!response.ok) {
+        }).then(response =>{if (!response.ok) {
             console.log(response.status);
             throw new Error(`Failed to update task: ${response.status}`);
         }
 
-        const updatedTaskData = await response.json();
+       // const updatedTaskData = await response.json();
         console.log("Task updated successfully:", updatedTaskData);
 
         // You can show a success message or perform additional actions here
         document.getElementById("successMessage").style.display = "block";
-        document.getElementById("failureMessage").style.display = "none";
+        document.getElementById("failureMessage").style.display = "none";})
+
+        
 
     } catch (error) {
         console.error("Error updating task:", error);
