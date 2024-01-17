@@ -1,5 +1,8 @@
 document.addEventListener('DOMContentLoaded', function () {
 
+  fetchData();
+});
+
     async function fetchData() {
       const apiUrl = 'http://localhost:8080/api/tasks';
       const token = localStorage.getItem('token');
@@ -171,6 +174,5 @@ document.addEventListener("click", function (event) {
     
   
     // Call the fetchData function when the page is loaded
-    fetchData();
-  });
+
   
