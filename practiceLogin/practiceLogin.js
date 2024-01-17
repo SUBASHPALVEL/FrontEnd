@@ -44,6 +44,7 @@ function login() {
     } else {
           localStorage.setItem("userId",data.userId);
           localStorage.setItem("token",data.token);
+          console.log(data.token);
           showFor4SecondsForSuccess();
        
           
@@ -62,7 +63,7 @@ function showFor4SecondsForSuccess() {
     successMessage.style.display = "none";
     formContainer.style.opacity = "1";
     resetForm();
-    window.location.href = "../userTasks/userTasks.html";
+    window.location.href = "../homepage/homepage.html";
   }, 4000);
  
 }

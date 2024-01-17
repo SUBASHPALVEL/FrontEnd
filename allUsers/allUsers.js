@@ -35,12 +35,11 @@ function generateTaskList(tasks) {
 
 // Go back button action
 function goBack() {
-    alert('Go Back button clicked!');
-    // Add your go back logic here
+    window.location.href = "../homepage/homepage.html";
+
 }
 
 // Logout button action
 function logout() {
-    alert('Logout button clicked!');
-    // Add your logout logic here
+    window.location.href = "../practiceLogin/practiceLogin.html";
 }
