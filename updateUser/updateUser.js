@@ -1,7 +1,12 @@
 
+const formContainer = document.getElementById("userUpdateForm");
 
+const successMessage = document.getElementById("successMessage");
+const failureMessage = document.getElementById("failureMessage");
 
 const token = "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoic2siLCJpYXQiOjE3MDU0NjgxNjgsInJvbGVzIjoiUk9MRV9BRE1JTiJ9.LqOjbmHG0QTdywj77Il9l1RTP2t0-9Y7el86FXn7Gz6VWAgv74sYgvg9hj9Tqh4sEEdRNGEJYnG4fkIxQKqemzN7pakp8YmWwv2CQdUKWGoOEXF2niIuC0SCE3bXk0dpBAU678oyMu5dWBISOKQCJtYsSTxcBBumKsDE6GXBG9XUNwpU6dOkgpb4nx-88-SEHD2nm-lhENOmG3C8xXaiQBEHH0uGN0ny7GLdyEmfnz29WCc2jBkeXlvojvY_e5WoOajd5n53sg7YRcEbrtoYLr3sL_qQi26oFtAle3EJobDw6D9J56oTb5FIUJrJyecII5dXvEqTf6unsyLjSFr7tQ"; // Replace with your actual bearer token
+
+fetchRoleIdOptions();
 
 
 async function fetchRoleIdOptions() {
@@ -36,7 +41,7 @@ async function fetchRoleIdOptions() {
 }
 
 
-fetchRoleIdOptions();
+
 
 
 
@@ -92,30 +97,39 @@ async function updateUser() {
 
 
     try {
-            fetch (apiUrl, {
+            await fetch (apiUrl, {
             method: "PUT",
             headers: {
                 "Authorization": `Bearer ${token}`,
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(updatedUserData)
-        }).then(response =>{if (!response.ok) {
+        }).then(response =>{
+            if (!response.ok) 
+            {
             console.log(response.status);
+            showFor4SecondsForFailure();
             throw new Error(`Failed to update task: ${response.status}`);
+            
         }
 
         console.log("Task updated successfully:", updatedUserData);
+        showFor4SecondsForSuccess();
+        console.log("show success:");
 
-        document.getElementById("successMessage").style.display = "block";
-        document.getElementById("failureMessage").style.display = "none";})
+        const userId = 1;
+        fetchUserDetails(userId);
+
+        console.log("After fetching");
+    }
+        )
 
         
 
     } catch (error) {
         console.error("Error updating task:", error);
+        showFor4SecondsForFailure();
 
-        document.getElementById("successMessage").style.display = "none";
-        document.getElementById("failureMessage").style.display = "block";
     }
 
 }
@@ -161,3 +175,28 @@ document.addEventListener("DOMContentLoaded", function() {
     const userId = 1; 
     fetchUserDetails(userId);
 });
+
+
+
+
+
+function showFor4SecondsForSuccess() {
+    formContainer.style.opacity = "0.5";
+    successMessage.style.display = "block";
+    setTimeout(() => {
+    successMessage.style.display = "none";
+     formContainer.style.opacity = "1";
+    //   window.location.href = "../userTasks/userTasks.html";
+    }, 4000);
+   
+  }
+  
+  function showFor4SecondsForFailure() {
+    failureMessage.style.display = "block";
+    formContainer.style.opacity = "0.5";
+    setTimeout(() => {
+      failureMessage.style.display = "none";
+      formContainer.style.opacity = "1";
+    }, 4000);
+    
+  }

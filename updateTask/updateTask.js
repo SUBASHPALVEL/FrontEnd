@@ -189,6 +189,7 @@ const token = "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoic2siLCJpYXQiOjE3
 
        // const updatedTaskData = await response.json();
         console.log("Task updated successfully:", updatedTaskData);
+        fetchTaskDetails(taskId);
 
         // You can show a success message or perform additional actions here
         document.getElementById("successMessage").style.display = "block";
