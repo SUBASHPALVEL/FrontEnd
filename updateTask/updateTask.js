@@ -139,7 +139,7 @@ fetchPriorityOptions();
 async function updateTask() {
 const token = "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoic2siLCJpYXQiOjE3MDU0MTA2MDgsInJvbGVzIjoiUk9MRV9BRE1JTiJ9.zMOnasBmirIVXSOSxSPOqqWttuomlqmY9XLcst22QcS8_n2tcgG4dTgk_aNwVrwcgsNV4_WS3wMdZWMhnEtrP6wgA37d6hB_z5lSJs5MIhefAEYA7aOmu-jfFEcU3G6Chva_j9jbMDxEi7fhSYO1qYP57CR3U-AzDJivwuvuMVwSWUkUwq8f7sWByiIbi9yTTJWQ7NycVIg2pKhQJkcOVKZpa8w1qg8Zf03RT5KRCNPeH_kXmRWWrx9hmEIaJlGtlmcOoPO-zeEWgwLkW5QF0boioQHkZ1kt3EP1AslGocWJQUOjciQ7-aemPhY_kzuMfYEfFGH-4aS2TtadnvcMQQ"; // Replace with your actual bearer token
 
-   const apiUrl = `http://127.0.0.1:8080/tasks/29`; // Assuming 1 is the task ID
+   const apiUrl = `http://127.0.0.1:8080/api/tasks/29`; // Assuming 1 is the task ID
 
    const assignedUsersArray= document.getElementById("assignedUsers").value.split(",").map(user => user.trim());
 
@@ -223,7 +223,7 @@ const token = "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoic2siLCJpYXQiOjE3
 
 async function fetchTaskDetails(taskId) {
    
-    const apiUrl = `http://127.0.0.1:8080/tasks/${taskId}`;
+    const apiUrl = `http://127.0.0.1:8080/api/tasks/${taskId}`;
 
     try {
         const response = await fetch(apiUrl, {
