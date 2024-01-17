@@ -1,6 +1,14 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // Fetch data from the API using GET method
-    fetch('http://localhost:8080/api/tasks')
+    
+
+    const token = localStorage.getItem('token');
+    fetch('http://localhost:8080/api/tasks', {
+    method: 'GET',
+    headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json' // Adjust this header based on your API requirements
+    }
+})
         .then(response => {
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);

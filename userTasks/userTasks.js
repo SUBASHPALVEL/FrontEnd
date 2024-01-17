@@ -1,9 +1,8 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-    // Function to make API request
     async function fetchData() {
-      const apiUrl = 'http://127.0.0.1:8080/tasks';
-      const token = 'eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoic3ViYSIsImlhdCI6MTcwNTM5NDY3Nywicm9sZXMiOiJST0xFX0FETUlOIn0.FN1dV7Tu27C0ItF1alH9IJpy6hnnslSlO8tHG_AoTsGfZMkXukmpA3Xg2QCzs3jysk5YryovXqWBE41hnWJPyIcbGrTygtO0tSuV2_XChOv2JJjjwXsqI8Q6M70etHqzf6QSiyoBJO1F8L6inzk3Lc2szKu6wzALhTcl8YsnJ5uOfW3x5wisHmHsdNOoEpMzb22b8q4LqLQuTALCMFeZZIcQCw1qMN928KzMeeYvGWQA6LsV93GNj517Y3yvN_I5kHxAc2sNfgNWXM7q1zjZz1CdxBoMpDzE6hLluU8iS9uECi8uR5zdlvkph3Jfot3pUnvJ7ifDLyi5wpbRCf5ZCQ';
+      const apiUrl = 'http://localhost:8080/api/tasks';
+      const token = localStorage.getItem('token');
   
       try {
         const response = await fetch(apiUrl, {
@@ -44,12 +43,14 @@ document.addEventListener('DOMContentLoaded', function () {
                     <td>${task.taskId}</td>
                     <td>${task.title}</td>
                     <td>${task.description}</td>
-                    <td>${task.status.statusLevel}</td>
                     <td>${task.priority.priorityStatus}</td>
-                    <td>${task.dueDate || 'N/A'}</td>
+                    <td>${task.status.statusLevel}</td>
                     <td>${task.createdDate}</td>
-                    <td>${task.completedDate || 'N/A'}</td>
                     <td>${task.modifiedDate || 'N/A'}</td>
+                    <td>${task.dueDate || 'N/A'}</td>
+                    
+                    <td>${task.completedDate || 'N/A'}</td>
+                    
                     <td>${task.assignedUsers.map(user => user.userName).join(', ')}</td>
                     <td><span class="edit-btn" data-id="${task.taskId}">Edit</span></td>
                     <td><span class="delete-btn" data-id="${task.taskId}">Delete</span></td>
