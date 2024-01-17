@@ -97,7 +97,7 @@ async function updateUser() {
 
 
     try {
-            await fetch (apiUrl, {
+            const response = await fetch (apiUrl, {
             method: "PUT",
             headers: {
                 "Authorization": `Bearer ${token}`,
