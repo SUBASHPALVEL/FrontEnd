@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="updateTask.css">
 </head>
 <body>
-    <form id="taskUpdateForm">
+    <form id="taskUpdateForm" onsubmit="updateTask(event)">
     <div id="container">
         <h1>Update Task</h1>
         <label for="taskId">Task ID:</label>
@@ -34,7 +34,9 @@
         <label for="assignedUsers">Assigned Users:</label>
         <input type="text" id="assignedUsers" placeholder="Enter comma-separated user IDs">
 
-        <button class="button" onclick="updateTask()">Update Task</button>
+        <button class="button" >Update Task</button>
+        <button class="button" type="button" onclick="cancelUpdate()">Cancel</button>
+        
         <div id="response"></div>
     </div>
 

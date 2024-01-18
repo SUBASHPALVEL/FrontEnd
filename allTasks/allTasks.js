@@ -88,14 +88,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Handle edit button click
 function handleEdit(event) {
-    const updateUserId = event.target.getAttribute("data-id");
-    localStorage.setItem("updateUserId",updateUserId);
-    window.location.href = "../updateUser/updateUser.html";
+    const updateTaskId = event.target.getAttribute("data-id");
+    localStorage.setItem("updateTaskId",updateTaskId);
+    window.location.href = "../updateTask/updateTask.html";
   }
   
   // Handle delete button click
  async function handleDelete(event) {
-    const deleteUserId = event.target.getAttribute("data-id");
+    const deleteTaskId = event.target.getAttribute("data-id");
     localStorage.setItem("deleteTaskId",deleteTaskId);
 
     const apiUrl = `http://127.0.0.1:8080/api/tasks/${deleteTaskId}`;

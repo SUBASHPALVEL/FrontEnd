@@ -1,10 +1,29 @@
+let updateTaskId;
+const token = localStorage.getItem("token");
+updateTaskId = localStorage.getItem("updateTaskId");
+let statusOptionsFetched = false;
+let priorityOptionsFetched = false;
+let TaskDetailsFetched = false;
+const formContainer = document.getElementById("taskUpdateForm");
+const successMessage = document.getElementById("successMessage");
+const failureMessage = document.getElementById("failureMessage");
+
+if (!statusOptionsFetched) {
+    fetchStatusOptions();
+    statusOptionsFetched = true;
+  }
+
+  if (!priorityOptionsFetched) {
+    fetchPriorityOptions();
+    priorityOptionsFetched = true;
+  }
+
+  if (!TaskDetailsFetched) {
+    fetchTaskDetails(updateTaskId);
+    TaskDetailsFetched = true;
+  }
 
 
-
-const token = "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoic2siLCJpYXQiOjE3MDU0MTA2MDgsInJvbGVzIjoiUk9MRV9BRE1JTiJ9.zMOnasBmirIVXSOSxSPOqqWttuomlqmY9XLcst22QcS8_n2tcgG4dTgk_aNwVrwcgsNV4_WS3wMdZWMhnEtrP6wgA37d6hB_z5lSJs5MIhefAEYA7aOmu-jfFEcU3G6Chva_j9jbMDxEi7fhSYO1qYP57CR3U-AzDJivwuvuMVwSWUkUwq8f7sWByiIbi9yTTJWQ7NycVIg2pKhQJkcOVKZpa8w1qg8Zf03RT5KRCNPeH_kXmRWWrx9hmEIaJlGtlmcOoPO-zeEWgwLkW5QF0boioQHkZ1kt3EP1AslGocWJQUOjciQ7-aemPhY_kzuMfYEfFGH-4aS2TtadnvcMQQ"; // Replace with your actual bearer token
-
-
-// Fetch status options from the API with a bearer token
 async function fetchStatusOptions() {
     
     const apiUrl = "http://127.0.0.1:8080/api/status";
@@ -37,33 +56,7 @@ async function fetchStatusOptions() {
     }
 }
 
-// Call the function to fetch status options when the page loads
-fetchStatusOptions();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Fetch status options from the API with a bearer token
 async function fetchPriorityOptions() {
     
     const apiUrl = "http://127.0.0.1:8080/api/priorities";
@@ -96,50 +89,13 @@ async function fetchPriorityOptions() {
     }
 }
 
-// Call the function to fetch status options when the page loads
-fetchPriorityOptions();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 // Function to update task details
-async function updateTask() {
-const token = "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoic2siLCJpYXQiOjE3MDU0MTA2MDgsInJvbGVzIjoiUk9MRV9BRE1JTiJ9.zMOnasBmirIVXSOSxSPOqqWttuomlqmY9XLcst22QcS8_n2tcgG4dTgk_aNwVrwcgsNV4_WS3wMdZWMhnEtrP6wgA37d6hB_z5lSJs5MIhefAEYA7aOmu-jfFEcU3G6Chva_j9jbMDxEi7fhSYO1qYP57CR3U-AzDJivwuvuMVwSWUkUwq8f7sWByiIbi9yTTJWQ7NycVIg2pKhQJkcOVKZpa8w1qg8Zf03RT5KRCNPeH_kXmRWWrx9hmEIaJlGtlmcOoPO-zeEWgwLkW5QF0boioQHkZ1kt3EP1AslGocWJQUOjciQ7-aemPhY_kzuMfYEfFGH-4aS2TtadnvcMQQ"; // Replace with your actual bearer token
+async function updateTask(event) {
+    event.preventDefault(); 
 
-   const apiUrl = `http://127.0.0.1:8080/api/tasks/29`; // Assuming 1 is the task ID
+   const apiUrl = `http://127.0.0.1:8080/api/tasks/${updateTaskId}`; 
 
    const assignedUsersArray= document.getElementById("assignedUsers").value.split(",").map(user => user.trim());
 
@@ -150,7 +106,7 @@ const token = "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoic2siLCJpYXQiOjE3
    const statusObject = { "statusId": parseInt(statusString, 10) }; 
 
 
-    // Gather updated values from form fields
+   
     const updatedTask = {
         title: document.getElementById("title").value,
         description: document.getElementById("description").value,
@@ -184,36 +140,24 @@ const token = "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoic2siLCJpYXQiOjE3
             body: JSON.stringify(updatedTask)
         }).then(response =>{if (!response.ok) {
             console.log(response.status);
+            showFor4SecondsForFailure();
             throw new Error(`Failed to update task: ${response.status}`);
         }
 
-       // const updatedTaskData = await response.json();
-        console.log("Task updated successfully:", updatedTaskData);
-        fetchTaskDetails(taskId);
-
-        // You can show a success message or perform additional actions here
-        document.getElementById("successMessage").style.display = "block";
-        document.getElementById("failureMessage").style.display = "none";})
-
+       
+        console.log("Task updated successfully:");
+        showFor4SecondsForSuccess();
         
 
-    } catch (error) {
+
+     
+    
+    
+    } ) } catch (error) {
         console.error("Error updating task:", error);
-
-        // You can show an error message or perform additional error handling here
-        document.getElementById("successMessage").style.display = "none";
-        document.getElementById("failureMessage").style.display = "block";
+        showFor4SecondsForFailure();
+      
     }
-
-
-
-
-
-
-
-
-
-
 
 }
 
@@ -222,9 +166,9 @@ const token = "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoic2siLCJpYXQiOjE3
 
 
 
-async function fetchTaskDetails(taskId) {
+async function fetchTaskDetails(updateTaskId) {
    
-    const apiUrl = `http://127.0.0.1:8080/api/tasks/${taskId}`;
+    const apiUrl = `http://127.0.0.1:8080/api/tasks/${updateTaskId}`;
 
     try {
         const response = await fetch(apiUrl, {
@@ -257,7 +201,27 @@ async function fetchTaskDetails(taskId) {
 }
 
 
-document.addEventListener("DOMContentLoaded", function() {
-    const taskId = 29; // Replace with the actual task ID you want to load
-    fetchTaskDetails(taskId);
-});
+function showFor4SecondsForSuccess() {
+    formContainer.style.opacity = "0.5";
+    successMessage.style.display = "block";
+    setTimeout(() => {
+      successMessage.style.display = "none";
+      formContainer.style.opacity = "1";
+      window.location.href = "../allTasks/allTasks.html";
+    }, 4000);
+  }
+  
+  function showFor4SecondsForFailure() {
+    failureMessage.style.display = "block";
+    formContainer.style.opacity = "0.5";
+    setTimeout(() => {
+      failureMessage.style.display = "none";
+      formContainer.style.opacity = "1";
+      window.location.href = "../allTasks/allTasks.html";
+    }, 4000);
+  }
+  
+
+  function cancelUpdate(){
+    window.location.href = "../allTasks/allTasks.html";
+  }

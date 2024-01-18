@@ -136,5 +136,10 @@ function showFor4SecondsForFailure() {
   setTimeout(() => {
     failureMessage.style.display = "none";
     formContainer.style.opacity = "1";
+    window.location.href = "../allUsers/allUsers.html";
   }, 4000);
+}
+
+function cancelUpdate(){
+  window.location.href = "../allUsers/allUsers.html";
 }
