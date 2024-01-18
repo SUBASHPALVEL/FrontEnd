@@ -1,40 +1,88 @@
 document.addEventListener('DOMContentLoaded', function () {
+
+    fetchData();
+  });
+  
+      async function fetchData() {
+        const apiUrl = 'http://localhost:8080/api/tasks';
+        const token = localStorage.getItem('token');
+    
+        try {
+          const response = await fetch(apiUrl, {
+            method: 'GET',
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+          });
+    
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+    
+          const data = await response.json();
+          populateTable(data);
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+      }
+    
+      // Function to populate the table with data
+  
+    
+      function populateTable(data) {
+  
+          const tableBody = document.getElementById('task-table-body');
+      
+          if(data.length==0){
+              
+          document.querySelector(".no-Data").style.display = "block";
+          }else{
+  
+              data.forEach(task =>{
+      
+                  const row = document.createElement('tr');
+                  row.innerHTML = `
+                      <td>${task.taskId}</td>
+                      <td>${task.title}</td>
+                      <td>${task.description}</td>
+                      <td>${task.priority.priorityStatus}</td>
+                      <td>${task.status.statusLevel}</td>
+                      <td>${task.createdDate}</td>
+                      <td>${task.modifiedDate || 'N/A'}</td>
+                      <td>${task.dueDate || 'N/A'}</td>
+                      
+                      <td>${task.completedDate || 'N/A'}</td>
+                      
+                      <td>${task.assignedUsers.map(user => user.userName).join(', ')}</td>
+                      <td><span class="edit-btn" data-id="${task.taskId}">Edit</span></td>
+                      <td><span class="delete-btn" data-id="${task.taskId}">Delete</span></td>
+          
+                  `;
+                  tableBody.appendChild(row);
+          
+          
+              })
+  
+          }
+      
+      }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  // Attach event listener to "Edit" button and "Delete" button
+  document.addEventListener("click", function (event) {
+      if (event.target.classList.contains("edit-btn")) {
+        handleEdit(event);
+      } else if (event.target.classList.contains("delete-btn")) {
+        handleDelete(event);
+      }
+    });
     
 
-    const token = localStorage.getItem('token');
-    fetch('http://localhost:8080/api/tasks', {
-    method: 'GET',
-    headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json' // Adjust this header based on your API requirements
-    }
-})
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            // Get the table body element
-            const tableBody = document.getElementById('taskTableBody');
-
-            // Loop through the data and create table rows
-            data.forEach(task => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${task.taskId}</td>
-                    <td>${task.title}</td>
-                    <td>${task.description}</td>
-                    <td>${task.status}</td>
-                    <td>${task.priority}</td>
-                    <td>${task.dueDate}</td>
-                    <td>${task.createdDate}</td>
-                    <td>${task.completedDate || 'N/A'}</td>
-                    <td>${task.assignedUsers.map(user => user.username).join(', ')}</td>
-                `;
-                tableBody.appendChild(row);
-            });
-        })
-        .catch(error => console.error('Error fetching data:', error));
-});
