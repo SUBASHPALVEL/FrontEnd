@@ -24,43 +24,60 @@ if (!priorityOptionsFetched) {
 function createTask(event) {
   event.preventDefault();
   const apiUrl = "http://127.0.0.1:8080/api/tasks";
-  const title = document.getElementById("title").value;
-  const description = document.getElementById("description").value;
-  const status = document.getElementById("status").value;
-  const priority = document.getElementById("priority").value;
-  const dueDate = document.getElementById("dueDate").value;
-  const assignedUsersInput = document.getElementById("assignedUsers").value;
 
-  const assignedUsers = validateAssignedUsers(assignedUsersInput);
-  if (!assignedUsers) {
-    
-    showFor4SecondsForFailure();
-    console.log("NO ASSIGNED");
-    
-  } else 
+  const assignedUsersArray = document
+    .getElementById("assignedUsers")
+    .value.split(",")
+    .map((user) => user.trim());
 
+  const priorityString = document.getElementById("priority").value;
+  const priorityObject = { priorityId: parseInt(priorityString, 10) };
+
+  const statusString = document.getElementById("status").value;
+  const statusObject = { statusId: parseInt(statusString, 10) };
+
+  const today = new Date();
+  const createdDate = today.toISOString().split("T")[0];
+
+  const newTask = {
+    title: document.getElementById("title").value,
+    description: document.getElementById("description").value,
+
+    status: statusObject,
+    priority: priorityObject,
+
+    createdDate: createdDate,
+
+    dueDate: document.getElementById("dueDate").value,
+    assignedUsers: assignedUsersArray.map((userId) => {
+      return { userId: parseInt(userId) };
+    }),
+  };
+
+  try {
     fetch(apiUrl, {
       method: "POST",
       headers: {
-        'Authorization': `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ title, description,status ,
-        priority,dueDate,createdDate,completedDate ,assignedUsers}),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.taskId == undefined) {
-          showFor4SecondsForFailure();
-          // resetForm();
-          console.log("failure");
-        } else {
-          showFor4SecondsForSuccess();
-        }
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+      body: JSON.stringify(newTask),
+    }).then((response) => {
+      if (!response.ok) {
+        console.log(response.status);
+        showFor4SecondsForFailure();
+        throw new Error(`Failed to create task: ${response.status}`);
+      }
+
+      console.log("Task created successfully:");
+      showFor4SecondsForSuccess();
+    });
+  } catch (error) {
+    console.error("Error creating task:", error);
+    showFor4SecondsForFailure();
+  }
+
+
   }
 
 
