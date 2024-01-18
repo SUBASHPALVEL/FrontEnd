@@ -3,6 +3,13 @@ document.addEventListener('DOMContentLoaded', function () {
     fetchData();
   });
   
+
+  const formContainer = document.getElementById("taskList");
+const successMessage = document.getElementById("successMessage");
+const failureMessage = document.getElementById("failureMessage");
+
+const token = localStorage.getItem('token');
+
       async function fetchData() {
         const apiUrl = 'http://localhost:8080/api/tasks';
         const token = localStorage.getItem('token');
