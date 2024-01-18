@@ -7,38 +7,35 @@
     <link rel="stylesheet" href="updateUser.css">
 </head>
 <body>
-    <form id="userUpdateForm">
-    <div id="container">
-        <h1>Update User</h1>
-        <label for="userId">User ID:</label>
-        <input type="text" id="userId" placeholder="Enter User ID">
+    <form id="userUpdateForm" onsubmit="updateUser(event)">
+        <div id="container">
+            <h1>Update User</h1>
+            <label for="userId">User ID:</label>
+            <input type="text" id="userId" placeholder="Enter User ID">
 
-        <label for="userName">User Name:</label>
-        <input type="text" id="userName" placeholder="Enter Your User Name">
+            <label for="userName">User Name:</label>
+            <input type="text" id="userName" placeholder="Enter Your User Name">
 
-        <label for="userMail">User Mail:</label>
-        <input type="text" id="userMail" placeholder="Enter Your Mail ID">
+            <label for="userMail">User Mail:</label>
+            <input type="text" id="userMail" placeholder="Enter Your Mail ID">
 
-        <label for="password">Password:</label>
-        <input type="password" id="password" placeholder="Enter Your Password">
+            <label for="password">Password:</label>
+            <input type="password" id="password" placeholder="Enter Your Password">
 
+            <label for="roleId">Role ID:</label>
+            <select id="roleId"></select>
 
-        <label for="roleId">Role ID:</label>
-        <select id="roleId"></select>
-
-        <button class="button" onclick="updateUser()">Update User</button>
-        <button class="button" onclick="cancelUpdate()">Cancel</button>
-    </div>
-
-   
+            <button class="button">Update User</button>
+            <button class="button" type="button" onclick="cancelUpdate()">Cancel</button>
+        </div>
     </form>
 
     <div class="success-message" id="successMessage">
-        <p>user Update successful!</p>
+        <p>User update successful!</p>
     </div>
 
     <div class="failure-message" id="failureMessage">
-        <p>User Update Failed!</p>
+        <p>User update failed!</p>
     </div>
 
     <script src="updateUser.js"></script>
