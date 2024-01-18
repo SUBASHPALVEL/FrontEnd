@@ -97,14 +97,14 @@ body {
   }
   
   
-  .buttons-left {
+  .buttons-right {
       position: absolute;
       top: 3.6rem;
       left: 64rem;   
       text-align: center;
     }
     
-    .buttons-right {
+    .buttons-left {
       position: absolute;
       top: 3.6rem; 
       right: 72.5rem;   
