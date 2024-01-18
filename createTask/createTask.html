@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="createTask.css">
 </head>
 <body>
-    <form id="taskCreationForm">
+    <form id="taskCreationForm" onsubmit="createTask(event)">
     <div id="container">
         <h1>Create Task</h1>
         <label for="title">Title:</label>
@@ -16,19 +16,12 @@
         <label for="description">Description:</label>
         <textarea id="description" placeholder="Enter task description"></textarea>
 
+        
         <label for="status">Status:</label>
-        <select id="status">
-            <option value="PENDING">PENDING</option>
-            <option value="IN_PROGRESS">In Progress</option>
-            <option value="COMPLETED">Completed</option>
-        </select>
+        <select id="status"></select>
 
         <label for="priority">Priority:</label>
-        <select id="priority">
-            <option value="LOW">Low</option>
-            <option value="MEDIUM">Medium</option>
-            <option value="HIGH">High</option>
-        </select>
+        <select id="priority"></select>
 
         <label for="dueDate">Due Date:</label>
         <input type="date" id="dueDate">
@@ -36,7 +29,8 @@
         <label for="assignedUsers">Assigned Users:</label>
         <input type="text" id="assignedUsers" placeholder="Enter comma-separated user IDs">
 
-        <button class="button" onclick="createTask()">Create Task</button>
+        <button class="button">Create Task</button>
+        <button class="button" type="button" onclick="handleCancel()">Cancel</button>
         <div id="response"></div>
     </div>
 
