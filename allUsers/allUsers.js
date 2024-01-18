@@ -79,18 +79,19 @@ document.addEventListener("click", function (event) {
   
   // Handle edit button click
   function handleEdit(event) {
-   
+    const updateUserId = event.target.getAttribute("data-id");
+    localStorage.setItem("updateUserId",updateUserId);
+    window.location.href = "../updateUser/updateUser.html";
   }
   
   // Handle delete button click
   function handleDelete(event) {
- 
+
   }
 
-
-
-
-
+function handleHome() {
+  window.location.href = "../homepage/homepage.html";
+}
 
 
 
@@ -100,12 +101,3 @@ document.addEventListener("click", function (event) {
         window.location.href = "../Login/Loginmain.html";
         localStorage.clear();
       }
-
-
-
-
-
-    
- 
-
-  
