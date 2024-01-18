@@ -86,3 +86,86 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     
 
+// Handle edit button click
+function handleEdit(event) {
+    const updateUserId = event.target.getAttribute("data-id");
+    localStorage.setItem("updateUserId",updateUserId);
+    window.location.href = "../updateUser/updateUser.html";
+  }
+  
+  // Handle delete button click
+ async function handleDelete(event) {
+    const deleteUserId = event.target.getAttribute("data-id");
+    localStorage.setItem("deleteTaskId",deleteTaskId);
+
+    const apiUrl = `http://127.0.0.1:8080/api/tasks/${deleteTaskId}`;
+
+
+  try {
+    await fetch(apiUrl, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    }).then((response) => {
+      if (!response.ok) {
+        console.log(response.status);
+        showFor4SecondsForFailure();
+        throw new Error(`Failed to delete user: ${response.status}`);
+      }
+
+      console.log("User deleted successfully:");
+      showFor4SecondsForSuccess();
+      console.log("show success:");
+
+      console.log("After fetching");
+    });
+  } catch (error) {
+    console.error("Error updating task:", error);
+    showFor4SecondsForFailure();
+  }
+
+
+
+
+
+
+
+
+
+  }
+
+function handleHome() {
+  window.location.href = "../homepage/homepage.html";
+}
+
+
+
+
+  // Handle logout button click
+    function handleLogout() {
+        window.location.href = "../Login/Loginmain.html";
+        localStorage.clear();
+      }
+
+  
+      function showFor4SecondsForSuccess() {
+        formContainer.style.opacity = "0.5";
+        successMessage.style.display = "block";
+        setTimeout(() => {
+          successMessage.style.display = "none";
+          formContainer.style.opacity = "1";
+          window.location.href = "../allTasks/allTasks.html";
+        }, 4000);
+      }
+      
+      function showFor4SecondsForFailure() {
+        failureMessage.style.display = "block";
+        formContainer.style.opacity = "0.5";
+        setTimeout(() => {
+          failureMessage.style.display = "none";
+          formContainer.style.opacity = "1";
+          window.location.href = "../allTasks/allTasks.html";
+        }, 4000);
+      }

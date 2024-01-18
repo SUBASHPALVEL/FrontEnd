@@ -92,7 +92,7 @@ document.addEventListener("click", function (event) {
   // Handle delete button click
  async function handleDelete(event) {
     const deleteUserId = event.target.getAttribute("data-id");
-    localStorage.setItem("updateUserId",deleteUserId);
+    localStorage.setItem("deleteUserId",deleteUserId);
 
     const apiUrl = `http://127.0.0.1:8080/api/users/${deleteUserId}`;
 
