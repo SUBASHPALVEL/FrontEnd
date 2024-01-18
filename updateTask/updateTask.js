@@ -105,6 +105,9 @@ async function updateTask(event) {
    const statusString = document.getElementById("status").value;
    const statusObject = { "statusId": parseInt(statusString, 10) }; 
 
+   const today = new Date();
+    const modifiedDate = today.toISOString().split('T')[0];
+
 
    
     const updatedTask = {
@@ -115,6 +118,8 @@ async function updateTask(event) {
 
         status: statusObject,
         priority: priorityObject,
+
+        modifiedDate: modifiedDate,
 
 
 
