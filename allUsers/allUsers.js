@@ -1,5 +1,8 @@
 document.addEventListener('DOMContentLoaded', function () {
 
+  fetchData();
+});
+
     const token = localStorage.getItem('token');
     async function fetchData() {
       const apiUrl = 'http://localhost:8080/api/users';
@@ -76,70 +79,12 @@ document.addEventListener("click", function (event) {
   
   // Handle edit button click
   function handleEdit(event) {
-    console.log("Inside edit button");
-    const taskId = event.target.getAttribute("data-id");
-    console.log(taskId);
-
-
-    const students = JSON.parse(localStorage.getItem("students"));
-
-    const studentIndex = response.findIndex((s) => s.taskId === taskId);
-    console.log(studentIndex);
-
-
-    if (studentIndex !== -1) {
-      const student = students[studentIndex];
-  
-      // Display an edit form
-      const editForm = `
-              <td><input type="text" id="edit-name" value="${student.name}" /></td>
-              <td><input type="number" id="edit-age" value="${student.age}" /></td>
-              <td><input type="text" id="edit-grade" value="${student.grade}" /></td>
-              <td>
-                  <button class="save-btn" data-index="${studentIndex}">Save</button>
-                  <button class="cancel-btn">Cancel</button>
-              </td>
-          `;
-  
-      const row = event.target.parentNode.parentNode;
-      row.innerHTML = editForm;
-  
-      const saveButton = row.querySelector(".save-btn");
-      const cancelButton = row.querySelector(".cancel-btn");
-  
-      saveButton.addEventListener("click", () => {
-        const updatedStudent = {
-          id: student.id,
-          name: document.querySelector("#edit-name").value,
-          age: parseInt(document.querySelector("#edit-age").value),
-          grade: document.querySelector("#edit-grade").value,
-        };
-  
-        students[studentIndex] = updatedStudent;
-        localStorage.setItem("students", JSON.stringify(students));
-  
-        displayStudents(students);
-      });
-  
-      cancelButton.addEventListener("click", () => {
-        displayStudents(students);
-      });
-    }
+   
   }
   
   // Handle delete button click
   function handleDelete(event) {
-    const studentId = event.target.getAttribute("data-id");
-    let students = JSON.parse(localStorage.getItem("students"));
-    const studentIndex = students.findIndex(
-      (student) => student.name === studentId
-    );
-  
-    if (studentIndex !== -1) {
-      students.splice(studentIndex, 1);
-      localStorage.setItem("students", JSON.stringify(students));
-      displayStudents(students);
-    }
+ 
   }
 
 
@@ -150,7 +95,7 @@ document.addEventListener("click", function (event) {
 
 
 
-
+  // Handle logout button click
     function handleLogout() {
         window.location.href = "../Login/Loginmain.html";
         localStorage.clear();
@@ -161,8 +106,6 @@ document.addEventListener("click", function (event) {
 
 
     
-  
-    // Call the fetchData function when the page is loaded
-    fetchData();
-  });
+ 
+
   
