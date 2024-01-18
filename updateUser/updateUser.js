@@ -55,14 +55,13 @@ async function updateUser(event) {
   const roleString = document.getElementById("roleId").value;
   const roleObject = { roleId: parseInt(roleString, 10) };
 
+
   const updatedUserData = {
     userName: document.getElementById("userName").value,
     userMail: document.getElementById("userMail").value,
-    password: document.getElementById("password").value,
     roleId: roleObject,
   };
 
-  console.log(updatedUserData);
 
   try {
     await fetch(apiUrl, {
@@ -81,9 +80,6 @@ async function updateUser(event) {
 
       console.log("Task updated successfully:", updatedUserData);
       showFor4SecondsForSuccess();
-      console.log("show success:");
-
-      console.log("After fetching");
     });
   } catch (error) {
     console.error("Error updating task:", error);
@@ -113,7 +109,6 @@ async function fetchUserDetails(updateUserId) {
       document.getElementById("userId").value = userData.userId;
       document.getElementById("userName").value = userData.userName;
       document.getElementById("userMail").value = userData.userMail;
-      document.getElementById("password").value = userData.password;
       document.getElementById("roleId").value = userData.roleId.roleId;
     } catch (error) {
       console.error("Error fetching task details:", error);

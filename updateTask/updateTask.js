@@ -1,6 +1,5 @@
-let updateTaskId;
 const token = localStorage.getItem("token");
-updateTaskId = localStorage.getItem("updateTaskId");
+const updateTaskId = localStorage.getItem("updateTaskId");
 let statusOptionsFetched = false;
 let priorityOptionsFetched = false;
 let TaskDetailsFetched = false;
@@ -212,7 +211,13 @@ function showFor4SecondsForSuccess() {
     setTimeout(() => {
       successMessage.style.display = "none";
       formContainer.style.opacity = "1";
-      window.location.href = "../allTasks/allTasks.html";
+      if (fromYourTask == true) {
+        localStorage.setItem("fromYourTask",false);
+        window.location.href = "../yourTasks/yourTasks.html";
+      }else{
+        window.location.href = "../allTasks/allTasks.html";
+      }
+      
     }, 4000);
   }
   
@@ -222,11 +227,21 @@ function showFor4SecondsForSuccess() {
     setTimeout(() => {
       failureMessage.style.display = "none";
       formContainer.style.opacity = "1";
-      window.location.href = "../allTasks/allTasks.html";
+      if (fromYourTask) {
+        localStorage.setItem("fromYourTask",false);
+        window.location.href = "../yourTasks/yourTasks.html";
+      }else{
+        window.location.href = "../allTasks/allTasks.html";
+      }
     }, 4000);
   }
-  
+
 
   function cancelUpdate(){
-    window.location.href = "../allTasks/allTasks.html";
+    if (fromYourTask) {
+        localStorage.setItem("fromYourTask",false);
+        window.location.href = "../yourTasks/yourTasks.html";
+      }else{
+        window.location.href = "../allTasks/allTasks.html";
+      }
   }

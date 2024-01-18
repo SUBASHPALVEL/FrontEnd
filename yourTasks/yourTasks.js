@@ -1,10 +1,19 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-    const token = localStorage.getItem('token');
-    const userId = localStorage.getItem('userId');
+  fetchData();
+});
+
+
+const formContainer = document.getElementById("taskList");
+const successMessage = document.getElementById("successMessage");
+const failureMessage = document.getElementById("failureMessage");
+
+const token = localStorage.getItem('token');
+const userId = localStorage.getItem('userId');
+
     async function fetchData() {
       const apiUrl = `http://localhost:8080/api/tasks/user/${userId}`;
-      
+      const token = localStorage.getItem('token');
   
       try {
         const response = await fetch(apiUrl, {
@@ -25,8 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
         console.error('Error fetching data:', error);
       }
     }
-  
-    // Function to populate the table with data
+
 
   
     function populateTable(data) {
@@ -50,7 +58,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     <td>${task.createdDate}</td>
                     <td>${task.modifiedDate || 'N/A'}</td>
                     <td>${task.dueDate || 'N/A'}</td>
+                    
                     <td>${task.completedDate || 'N/A'}</td>
+                    
                     <td>${task.assignedUsers.map(user => user.userName).join(', ')}</td>
                     <td><span class="edit-btn" data-id="${task.taskId}">Edit</span></td>
                     <td><span class="delete-btn" data-id="${task.taskId}">Delete</span></td>
@@ -82,95 +92,87 @@ document.addEventListener("click", function (event) {
     }
   });
   
-  // Handle edit button click
-  function handleEdit(event) {
-    console.log("Inside edit button");
-    const taskId = event.target.getAttribute("data-id");
-    console.log(taskId);
+
+// Handle edit button click
+function handleEdit(event) {
+  const updateTaskId = event.target.getAttribute("data-id");
+  localStorage.setItem("updateTaskId",updateTaskId);
+  window.location.href = "../updateTask/updateTask.html";
+}
+
+// Handle delete button click
+async function handleDelete(event) {
+  const deleteTaskId = event.target.getAttribute("data-id");
+  localStorage.setItem("deleteTaskId",deleteTaskId);
+
+  const apiUrl = `http://127.0.0.1:8080/api/tasks/${deleteTaskId}`;
 
 
-    const students = JSON.parse(localStorage.getItem("students"));
-
-    const studentIndex = response.findIndex((s) => s.taskId === taskId);
-    console.log(studentIndex);
-
-
-    if (studentIndex !== -1) {
-      const student = students[studentIndex];
-  
-      // Display an edit form
-      const editForm = `
-              <td><input type="text" id="edit-name" value="${student.name}" /></td>
-              <td><input type="number" id="edit-age" value="${student.age}" /></td>
-              <td><input type="text" id="edit-grade" value="${student.grade}" /></td>
-              <td>
-                  <button class="save-btn" data-index="${studentIndex}">Save</button>
-                  <button class="cancel-btn">Cancel</button>
-              </td>
-          `;
-  
-      const row = event.target.parentNode.parentNode;
-      row.innerHTML = editForm;
-  
-      const saveButton = row.querySelector(".save-btn");
-      const cancelButton = row.querySelector(".cancel-btn");
-  
-      saveButton.addEventListener("click", () => {
-        const updatedStudent = {
-          id: student.id,
-          name: document.querySelector("#edit-name").value,
-          age: parseInt(document.querySelector("#edit-age").value),
-          grade: document.querySelector("#edit-grade").value,
-        };
-  
-        students[studentIndex] = updatedStudent;
-        localStorage.setItem("students", JSON.stringify(students));
-  
-        displayStudents(students);
-      });
-  
-      cancelButton.addEventListener("click", () => {
-        displayStudents(students);
-      });
+try {
+  await fetch(apiUrl, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  }).then((response) => {
+    if (!response.ok) {
+      console.log(response.status);
+      showFor4SecondsForFailure();
+      throw new Error(`Failed to delete user: ${response.status}`);
     }
-  }
-  
-  // Handle delete button click
-  function handleDelete(event) {
-    const studentId = event.target.getAttribute("data-id");
-    let students = JSON.parse(localStorage.getItem("students"));
-    const studentIndex = students.findIndex(
-      (student) => student.name === studentId
-    );
-  
-    if (studentIndex !== -1) {
-      students.splice(studentIndex, 1);
-      localStorage.setItem("students", JSON.stringify(students));
-      displayStudents(students);
-    }
-  }
 
+    console.log("User deleted successfully:");
+    showFor4SecondsForSuccess();
+    console.log("show success:");
 
-
-
-
-
-
-
-
-
-    function handleLogout() {
-        window.location.href = "../Login/Loginmain.html";
-        localStorage.clear();
-      }
-
-
-
-
-
-    
-  
-    // Call the fetchData function when the page is loaded
-    fetchData();
+    console.log("After fetching");
   });
-  
+} catch (error) {
+  console.error("Error updating task:", error);
+  showFor4SecondsForFailure();
+}
+
+
+
+
+
+
+
+
+
+}
+
+function handleHome() {
+window.location.href = "../homepage/homepage.html";
+}
+
+
+
+
+// Handle logout button click
+  function handleLogout() {
+      window.location.href = "../Login/Loginmain.html";
+      localStorage.clear();
+    }
+
+
+    function showFor4SecondsForSuccess() {
+      formContainer.style.opacity = "0.5";
+      successMessage.style.display = "block";
+      setTimeout(() => {
+        successMessage.style.display = "none";
+        formContainer.style.opacity = "1";
+        window.location.href = "../yourTasks/yourTasks.html";
+      }, 4000);
+    }
+    
+    function showFor4SecondsForFailure() {
+      failureMessage.style.display = "block";
+      formContainer.style.opacity = "0.5";
+      setTimeout(() => {
+        failureMessage.style.display = "none";
+        formContainer.style.opacity = "1";
+        window.location.href = "../yourTasks/yourTasks.html";
+      }, 4000);
+    }

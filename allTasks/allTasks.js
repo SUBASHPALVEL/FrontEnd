@@ -133,19 +133,11 @@ function handleEdit(event) {
     showFor4SecondsForFailure();
   }
 
-
-
-
-
-
-
-
-
   }
 
-function handleHome() {
-  window.location.href = "../homepage/homepage.html";
-}
+  function handleHome() {
+    window.location.href = "../homepage/homepage.html";
+  }
 
 
 
