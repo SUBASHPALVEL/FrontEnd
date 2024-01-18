@@ -3,6 +3,11 @@ document.addEventListener('DOMContentLoaded', function () {
   fetchData();
 });
 
+
+const formContainer = document.getElementById("userList");
+const successMessage = document.getElementById("successMessage");
+const failureMessage = document.getElementById("failureMessage");
+
     const token = localStorage.getItem('token');
     async function fetchData() {
       const apiUrl = 'http://localhost:8080/api/users';
@@ -85,7 +90,45 @@ document.addEventListener("click", function (event) {
   }
   
   // Handle delete button click
-  function handleDelete(event) {
+ async function handleDelete(event) {
+    const deleteUserId = event.target.getAttribute("data-id");
+    localStorage.setItem("updateUserId",deleteUserId);
+
+    const apiUrl = `http://127.0.0.1:8080/api/users/${deleteUserId}`;
+
+
+  try {
+    await fetch(apiUrl, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    }).then((response) => {
+      if (!response.ok) {
+        console.log(response.status);
+        showFor4SecondsForFailure();
+        throw new Error(`Failed to delete user: ${response.status}`);
+      }
+
+      console.log("User deleted successfully:");
+      showFor4SecondsForSuccess();
+      console.log("show success:");
+
+      console.log("After fetching");
+    });
+  } catch (error) {
+    console.error("Error updating task:", error);
+    showFor4SecondsForFailure();
+  }
+
+
+
+
+
+
+
+
 
   }
 
@@ -100,4 +143,25 @@ function handleHome() {
     function handleLogout() {
         window.location.href = "../Login/Loginmain.html";
         localStorage.clear();
+      }
+
+  
+      function showFor4SecondsForSuccess() {
+        formContainer.style.opacity = "0.5";
+        successMessage.style.display = "block";
+        setTimeout(() => {
+          successMessage.style.display = "none";
+          formContainer.style.opacity = "1";
+          window.location.href = "../allUsers/allUsers.html";
+        }, 4000);
+      }
+      
+      function showFor4SecondsForFailure() {
+        failureMessage.style.display = "block";
+        formContainer.style.opacity = "0.5";
+        setTimeout(() => {
+          failureMessage.style.display = "none";
+          formContainer.style.opacity = "1";
+          window.location.href = "../allUsers/allUsers.html";
+        }, 4000);
       }

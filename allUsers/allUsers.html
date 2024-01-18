@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="allUsers.css" />
   </head>
   <body>
-    <div class="container">
+    <div class="container" id ="userList">
       <h1>Task Management
         <div class="buttons-left">
             <button type="button" class="homeButton" onclick="handleHome()" >Home</button>
@@ -38,6 +38,13 @@
     <img src="../Images/loading.gif" alt="Loading" class="loadingGif" id="loadingGif"></img>
     
     </div>
+    <div class="success-message" id="successMessage">
+      <p>User deleted successful!</p>
+  </div>
+
+  <div class="failure-message" id="failureMessage">
+      <p>User deletion failed!</p>
+  </div>
      
     <script src="allUsers.js"></script>
   </body>
