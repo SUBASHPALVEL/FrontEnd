@@ -2,8 +2,7 @@ let updateUserId;
 const token = localStorage.getItem("token");
 updateUserId = localStorage.getItem("updateUserId");
 let roleIdOptionsFetched = false;
-let userDetailsFetched = false;
-const formContainer = document.getElementById("userUpdateForm");
+const formContainer = document.getElementById("newUserForm");
 const successMessage = document.getElementById("successMessage");
 const failureMessage = document.getElementById("failureMessage");
 
@@ -12,10 +11,6 @@ if (!roleIdOptionsFetched) {
   roleIdOptionsFetched = true;
 }
 
-if (!userDetailsFetched) {
-  fetchUserDetails(updateUserId);
-  userDetailsFetched = true;
-}
 
 async function fetchRoleIdOptions() {
     const apiUrl = "http://127.0.0.1:8080/api/roles";
@@ -50,27 +45,28 @@ async function fetchRoleIdOptions() {
 async function createUser(event) {
   event.preventDefault(); 
 
-  const apiUrl = `http://127.0.0.1:8080/api/users/${updateUserId}`;
+  const apiUrl = 'http://127.0.0.1:8080/api/users';
 
   const roleString = document.getElementById("roleId").value;
   const roleObject = { roleId: parseInt(roleString, 10) };
 
 
-  const updatedUserData = {
+  const newUserData = {
     userName: document.getElementById("userName").value,
     userMail: document.getElementById("userMail").value,
+    password: document.getElementById("password").value,
     roleId: roleObject,
   };
 
 
   try {
     await fetch(apiUrl, {
-      method: "PUT",
+      method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(updatedUserData),
+      body: JSON.stringify(newUserData),
     }).then((response) => {
       if (!response.ok) {
         console.log(response.status);
@@ -78,7 +74,7 @@ async function createUser(event) {
         throw new Error(`Failed to update task: ${response.status}`);
       }
 
-      console.log("Task updated successfully:", updatedUserData);
+      console.log("Task updated successfully:");
       showFor4SecondsForSuccess();
     });
   } catch (error) {
@@ -104,10 +100,9 @@ function showFor4SecondsForSuccess() {
     setTimeout(() => {
       failureMessage.style.display = "none";
       formContainer.style.opacity = "1";
-      window.location.href = "../allUsers/allUsers.html";
     }, 4000);
   }
   
   function cancelUpdate(){
-    window.location.href = "../allUsers/allUsers.html";
+    window.location.href = "../homepage/homepage.html";
   }

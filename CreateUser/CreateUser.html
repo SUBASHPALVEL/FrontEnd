@@ -3,23 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home Page</title>
+    <title>Create User</title>
     <link rel="stylesheet" type="text/css" href="createUser.css">
-    <script src="CreateUser.js"></script>
+    
 </head>
 <body>
 
     
-    <form id="userForm" onsubmit="createUser(event)">
+    <form id="newUserForm" onsubmit="createUser(event)">
         <h1>Create User</h1>
         <!-- Username -->
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
+        <label for="userName">Username:</label>
+        <input type="text" id="userName" name="userName" required>
         <br>
 
         <!-- User Email -->
-        <label for="usermail">User Email:</label>
-        <input type="email" id="usermail" name="usermail" required>
+        <label for="userMail">User Email:</label>
+        <input type="email" id="userMail" name="userMail" required>
         <br>
 
         <!-- User Password -->
@@ -35,14 +35,21 @@
         
         <!-- Add this div to display the response -->
 
+
+
+        <div class="success-message" id="successMessage">
+            <p>User update successful!</p>
+        </div>
+    
+        <div class="failure-message" id="failureMessage">
+            <p>User update failed!</p>
+        </div>
+
+
+
     </form>
-    <div class="success-message" id="successMessage">
-        <p>User update successful!</p>
-    </div>
-
-    <div class="failure-message" id="failureMessage">
-        <p>User update failed!</p>
-    </div>
-
+    
+    <script src="CreateUser.js"></script>
 </body>
+
 </html>
