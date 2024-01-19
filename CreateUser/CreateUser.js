@@ -103,6 +103,6 @@ function showFor4SecondsForSuccess() {
     }, 4000);
   }
   
-  function cancelUpdate(){
+  function handleCancel(){
     window.location.href = "../homepage/homepage.html";
   }
