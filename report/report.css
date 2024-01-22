@@ -8,11 +8,14 @@ body {
     display: flex;
     justify-content: space-around;
     padding-top:10px;
+    
 }
 
 .chart-item {
-    width: 395px;
+    
     height: 395px;
+    width: 32%;
+    border: 2px solid #4caf50;
 }
 
 
@@ -24,8 +27,9 @@ body {
 
 .summary-item{
     
-    width: 395px;
+    width: 32%;
     height: 195px;
+    border: 2px solid #4caf50;
     
 }
 
@@ -74,8 +78,8 @@ h1 {
 
 
 h2 {
-    background-color: brown;
-    color: white;
+    background-color: white;
+    color: #4caf50;
     padding: 10px;
     text-align: center;
     
@@ -85,15 +89,22 @@ h2 {
   }
 
   .summary-item p {
-    color: red;
+    color: #4caf50;
     font-size: 50px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
-    font-weight: bold;
+    font-weight: bold; 
 }
+
+
+.summary-item h2 {
+    border: 2px solid #4caf50;
+    border-bottom: 4px solid #4caf50;
+}
+
 
 .failure-message {
     display: none;
@@ -108,3 +119,9 @@ h2 {
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
     z-index: 2;
   }
+
+  .chart-item h2 {
+    border: 2px solid #4caf50;
+    border-bottom: 4px solid #4caf50;
+    
+}
