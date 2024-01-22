@@ -213,6 +213,7 @@ function showFor4SecondsForFailure() {
     }else {
       window.location.href = "../homepage/homepage.html";
     }
+    
   }, 4000);
 }
 
