@@ -152,8 +152,8 @@ window.location.href = "../homepage/homepage.html";
 
 // Handle logout button click
   function handleLogout() {
-      window.location.href = "../Login/Loginmain.html";
-      localStorage.clear();
+    window.location.href = "../login/login.html";
+    localStorage.clear();
     }
 
 

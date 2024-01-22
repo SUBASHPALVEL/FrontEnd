@@ -144,7 +144,7 @@ function handleEdit(event) {
 
   // Handle logout button click
     function handleLogout() {
-        window.location.href = "../Login/Loginmain.html";
+        window.location.href = "../login/login.html";
         localStorage.clear();
       }
 

@@ -50,10 +50,14 @@ function handleHome() {
 
 
     function handleLogout() {
-        window.location.href = "../Login/Loginmain.html";
+        window.location.href = "../login/login.html";
         localStorage.clear();
       }
 
 function createDashboard() {
+    document.getElementById("totalUsersText").innerHTML = reportData.totalUsers;
+    document.getElementById("totalTasksText").innerHTML = reportData.totalTasks;
+    document.getElementById("totalAssignmentText").innerHTML = reportData.totalAssignments;
 
+    
 }
