@@ -54,10 +54,102 @@ function handleHome() {
         localStorage.clear();
       }
 
-function createDashboard() {
+
+
+      function generateDatasets(countsObject) {
+        return {
+            labels: Object.keys(countsObject),
+            datasets: [{
+                data: Object.values(countsObject),
+                backgroundColor: Object.values(countsObject).map(() => getRandomColor()),
+                borderWidth: 1
+            }]
+        };
+    }
+
+
+    function getRandomColor() {
+        return '#' + Math.floor(Math.random()*16777215).toString(16);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function createDashboard(reportData) {
     document.getElementById("totalUsersText").innerHTML = reportData.totalUsers;
     document.getElementById("totalTasksText").innerHTML = reportData.totalTasks;
     document.getElementById("totalAssignmentText").innerHTML = reportData.totalAssignments;
 
     
+
+
+    
+    let statusChartCanvas = document.getElementById('statusChart').getContext('2d');
+    new Chart(statusChartCanvas, {
+        type: 'pie',
+        data: generateDatasets(reportData.statusCounts),
+        options: {
+            title: {
+                display: true,
+                text: 'Status Counts'
+            }
+        }
+    });
+
+
+
+
+    let  priorityChartCanvas = document.getElementById('priorityChart').getContext('2d');
+    new Chart(priorityChartCanvas, {
+    type: 'pie',
+    data: generateDatasets(reportData.priorityCounts),
+    options: {
+        title: {
+            display: true,
+            text: 'Priority Counts'
+        }
+    }
+});
+
+
+
+    let designationChartCanvas = document.getElementById('designationChart').getContext('2d');
+    new Chart(designationChartCanvas,{
+        type: 'pie',
+        data: generateDatasets(reportData.designationCounts),
+        options: {
+            title:{
+                display: true,
+                text: "Designation Counts"
+            }
+        }
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
