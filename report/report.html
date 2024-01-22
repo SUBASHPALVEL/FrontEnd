@@ -3,10 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chart.js Example</title>
+    <title>Report</title>
     <link rel="stylesheet" href="report.css">
 </head>
 <body>
+
+
+    <div class="container">
+    <h1>Report
+        <div class="buttons-left">
+            <button type="button" class="homeButton" onclick="handleHome()" >Home</button>
+            
+        </div>
+        <div class="buttons-right">
+            <button type="button" class="logoutButton" onclick="handleLogout()" >Logout</button>
+            
+        </div>
+      </h1>
+     
+
+
+
+
+
+
+
+
     <div class="chart-container">
        
         <div class="chart-item" style="background-color: #FF0000 ">
@@ -27,23 +49,26 @@
     <div class="summary-container">
        
         <div class="summary-item" style="background-color: #bbff00 ">
-            <canvas id="totalUsers"  ></canvas>
+            <h2>Total Users</h2>
+            <p id = "totalUsersText"> 32 </p>
         </div>
 
         <div class="summary-item" style="background-color: #00f2ff">
-            <canvas id="totalTasks" ></canvas>
+            <h2>Total Tasks</h2>
+            <p id = "totalTasksText">24 </p>
         </div>
 
         <div class="summary-item" style="background-color: #660080" >
-            <canvas id="totalAssignments" ></canvas>
+            <h2>Total Assignments</h2>
+            <p id = "totalAssignmentText">46 </p>
         </div>
  
     </div>
 
-
+</div>
     
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.min.js"></script>
     <script src="report.js"></script>
 </body>
 </html>

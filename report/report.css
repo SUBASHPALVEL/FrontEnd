@@ -7,12 +7,12 @@ body {
 .chart-container {
     display: flex;
     justify-content: space-around;
-    padding-top:20px;
+    padding-top:10px;
 }
 
 .chart-item {
-    width: 400px;
-    height: 400px;
+    width: 395px;
+    height: 395px;
 }
 
 
@@ -23,6 +23,73 @@ body {
 }
 
 .summary-item{
-    width: 400px;
-    height: 400px;
+    
+    width: 395px;
+    height: 195px;
+    
+}
+
+
+h1 {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px;
+    text-align: center;
+  }
+
+
+.logoutButton,
+.homeButton {
+  background-color: #ffffff;
+  color: #4caf50;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  margin: 0rem 1rem;  
+}
+
+.container {
+    max-width: 100%;
+    min-height: 32.5rem;
+    margin: 1rem;
+    padding: 1rem;
+    border: 0.0625rem solid #ccc;
+    border-radius: 0.3125rem;
+    box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.1);
+  }
+
+.buttons-right {
+  position: absolute;
+  top: 3.6rem;
+  left: 71rem;   
+  text-align: center;
+}
+
+.buttons-left {
+  position: absolute;
+  top: 3.6rem; 
+  right: 71.5rem;   
+  text-align: center;
+}
+
+
+h2 {
+    background-color: brown;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    
+    margin-bottom: 0px;
+    margin-top: 0px;
+
+  }
+
+  .summary-item p {
+    color: red;
+    font-size: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
