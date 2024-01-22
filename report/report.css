@@ -1,0 +1,28 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.chart-container {
+    display: flex;
+    justify-content: space-around;
+    padding-top:20px;
+}
+
+.chart-item {
+    width: 400px;
+    height: 400px;
+}
+
+
+.summary-container{
+    display: flex;
+    justify-content: space-around;
+    padding: 20px 0px;
+}
+
+.summary-item{
+    width: 400px;
+    height: 400px;
+}

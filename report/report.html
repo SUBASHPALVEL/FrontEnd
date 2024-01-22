@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chart.js Example</title>
+    <link rel="stylesheet" href="report.css">
+</head>
+<body>
+    <div class="chart-container">
+       
+        <div class="chart-item" style="background-color: #FF0000 ">
+            <canvas id="statusChart"  ></canvas>
+        </div>
+
+        <div class="chart-item" style="background-color: #0000FF">
+            <canvas id="priorityChart" ></canvas>
+        </div>
+
+        <div class="chart-item" style="background-color: #008000" >
+            <canvas id="designationChart" ></canvas>
+        </div>
+ 
+    </div>
+
+
+    <div class="summary-container">
+       
+        <div class="summary-item" style="background-color: #bbff00 ">
+            <canvas id="totalUsers"  ></canvas>
+        </div>
+
+        <div class="summary-item" style="background-color: #00f2ff">
+            <canvas id="totalTasks" ></canvas>
+        </div>
+
+        <div class="summary-item" style="background-color: #660080" >
+            <canvas id="totalAssignments" ></canvas>
+        </div>
+ 
+    </div>
+
+
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="report.js"></script>
+</body>
+</html>
