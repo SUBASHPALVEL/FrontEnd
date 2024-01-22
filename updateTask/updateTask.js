@@ -208,7 +208,9 @@ function showFor4SecondsForFailure() {
       window.location.href = "../yourTasks/yourTasks.html";
     } else if (previousPage.includes("allTasks/allTasks.html")) {
       window.location.href = "../allTasks/allTasks.html";
-    } else {
+    } else if (previousPage.includes("userTasks/userTasks.html")) {
+      window.location.href = "../userTasks/userTasks.html";
+    }else {
       window.location.href = "../homepage/homepage.html";
     }
   }, 4000);
@@ -219,7 +221,9 @@ function cancelUpdate() {
     window.location.href = "../yourTasks/yourTasks.html";
   } else if (previousPage.includes("allTasks/allTasks.html")) {
     window.location.href = "../allTasks/allTasks.html";
-  } else {
+  } else if (previousPage.includes("userTasks/userTasks.html")) {
+    window.location.href = "../userTasks/userTasks.html";
+  }else {
     window.location.href = "../homepage/homepage.html";
   }
 }
