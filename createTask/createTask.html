@@ -1,22 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Task Management System</title>
-    <link rel="stylesheet" href="createTask.css">
-</head>
-<body>
+    <link rel="stylesheet" href="createTask.css" />
+  </head>
+  <body>
     <form id="taskCreationForm" onsubmit="createTask(event)">
-    <div id="container">
+      <div id="container">
         <h1>Create Task</h1>
         <label for="title">Title:</label>
-        <input type="text" id="title" placeholder="Enter task title">
+        <input type="text" id="title" placeholder="Enter task title" />
 
         <label for="description">Description:</label>
-        <textarea id="description" placeholder="Enter task description"></textarea>
+        <textarea
+          id="description"
+          placeholder="Enter task description"
+        ></textarea>
 
-        
         <label for="status">Status:</label>
         <select id="status"></select>
 
@@ -24,25 +26,31 @@
         <select id="priority"></select>
 
         <label for="dueDate">Due Date:</label>
-        <input type="date" id="dueDate">
+        <input type="date" id="dueDate" />
 
         <label for="assignedUsers">Assigned Users:</label>
-        <input type="text" id="assignedUsers" placeholder="Enter comma-separated user IDs">
+        <input
+          type="text"
+          id="assignedUsers"
+          placeholder="Enter comma-separated user IDs"
+        />
 
         <button class="button">Create Task</button>
-        <button class="button" type="button" onclick="handleCancel()">Cancel</button>
+        <button class="button" type="button" onclick="handleCancel()">
+          Cancel
+        </button>
         <div id="response"></div>
-    </div>
+      </div>
 
-    <div class="success-message" id="successMessage">
+      <div class="success-message" id="successMessage">
         <p>Task Creation successful!</p>
       </div>
-  
+
       <div class="failure-message" id="failureMessage">
         <p>Task Creation Failed!</p>
       </div>
     </form>
 
     <script src="createTask.js"></script>
-</body>
+  </body>
 </html>

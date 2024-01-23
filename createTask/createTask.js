@@ -2,10 +2,10 @@ const formContainer = document.getElementById("taskCreationForm");
 const successMessage = document.getElementById("successMessage");
 const failureMessage = document.getElementById("failureMessage");
 
-const token = localStorage.getItem('token');
+const token = localStorage.getItem("token");
 
-let createdDate= new Date().toISOString().split("T")[0];
-let completedDate= null;
+let createdDate = new Date().toISOString().split("T")[0];
+let completedDate = null;
 
 let statusOptionsFetched = false;
 let priorityOptionsFetched = false;
@@ -19,7 +19,6 @@ if (!priorityOptionsFetched) {
   fetchPriorityOptions();
   priorityOptionsFetched = true;
 }
-
 
 function createTask(event) {
   event.preventDefault();
@@ -76,95 +75,67 @@ function createTask(event) {
     console.error("Error creating task:", error);
     showFor4SecondsForFailure();
   }
+}
 
+async function fetchStatusOptions() {
+  const apiUrl = "http://127.0.0.1:8080/api/status";
 
-  }
+  try {
+    const response = await fetch(apiUrl, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
 
-
-
-
-
-
-
-
-
-  async function fetchStatusOptions() {
-    const apiUrl = "http://127.0.0.1:8080/api/status";
-  
-    try {
-      const response = await fetch(apiUrl, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
-  
-      if (!response.ok) {
-        throw new Error(`Failed to fetch status options: ${response.status}`);
-      }
-  
-      const statusData = await response.json();
-      const statusSelect = document.getElementById("status");
-  
-      // Populate the status dropdown with options from the API
-      statusData.forEach((status) => {
-        const option = document.createElement("option");
-        option.value = status.statusId;
-        option.textContent = status.statusLevel;
-        statusSelect.appendChild(option);
-      });
-    } catch (error) {
-      console.error("Error fetching status options:", error);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch status options: ${response.status}`);
     }
+
+    const statusData = await response.json();
+    const statusSelect = document.getElementById("status");
+
+    statusData.forEach((status) => {
+      const option = document.createElement("option");
+      option.value = status.statusId;
+      option.textContent = status.statusLevel;
+      statusSelect.appendChild(option);
+    });
+  } catch (error) {
+    console.error("Error fetching status options:", error);
   }
+}
 
+async function fetchPriorityOptions() {
+  const apiUrl = "http://127.0.0.1:8080/api/priorities";
 
+  try {
+    const response = await fetch(apiUrl, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
 
-
-
-
-
-
-
-  async function fetchPriorityOptions() {
-    const apiUrl = "http://127.0.0.1:8080/api/priorities";
-  
-    try {
-      const response = await fetch(apiUrl, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
-  
-      if (!response.ok) {
-        throw new Error(`Failed to fetch status options: ${response.status}`);
-      }
-  
-      const priorityData = await response.json();
-      const prioritySelect = document.getElementById("priority");
-  
-      // Populate the status dropdown with options from the API
-      priorityData.forEach((priority) => {
-        const option = document.createElement("option");
-        option.value = priority.priorityId;
-        option.textContent = priority.priorityStatus;
-        prioritySelect.appendChild(option);
-      });
-    } catch (error) {
-      console.error("Error fetching status options:", error);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch status options: ${response.status}`);
     }
+
+    const priorityData = await response.json();
+    const prioritySelect = document.getElementById("priority");
+
+    priorityData.forEach((priority) => {
+      const option = document.createElement("option");
+      option.value = priority.priorityId;
+      option.textContent = priority.priorityStatus;
+      prioritySelect.appendChild(option);
+    });
+  } catch (error) {
+    console.error("Error fetching status options:", error);
   }
-
-
-
-
-
-
-
-
+}
 
 function validateAssignedUsers(input) {
   const userIDs = input.split(",").map((id) => parseInt(id.trim()));
@@ -202,4 +173,4 @@ function resetForm() {
 
 function handleCancel() {
   window.location.href = "../homepage/homepage.html";
-  }
+}

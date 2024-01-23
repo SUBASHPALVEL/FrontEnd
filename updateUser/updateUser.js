@@ -18,50 +18,48 @@ if (!userDetailsFetched) {
 }
 
 async function fetchRoleIdOptions() {
-    const apiUrl = "http://127.0.0.1:8080/api/roles";
+  const apiUrl = "http://127.0.0.1:8080/api/roles";
 
-    try {
-      const response = await fetch(apiUrl, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
-  
-      if (!response.ok) {
-        throw new Error(`Failed to fetch status options: ${response.status}`);
-      }
-  
-      const roleData = await response.json();
-      const roleSelect = document.getElementById("roleId");
-  
-      roleData.forEach((role) => {
-        const option = document.createElement("option");
-        option.value = role.roleId;
-        option.textContent = role.designation;
-        roleSelect.appendChild(option);
-      });
-    } catch (error) {
-      console.error("Error fetching status options:", error);
+  try {
+    const response = await fetch(apiUrl, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch status options: ${response.status}`);
     }
+
+    const roleData = await response.json();
+    const roleSelect = document.getElementById("roleId");
+
+    roleData.forEach((role) => {
+      const option = document.createElement("option");
+      option.value = role.roleId;
+      option.textContent = role.designation;
+      roleSelect.appendChild(option);
+    });
+  } catch (error) {
+    console.error("Error fetching status options:", error);
+  }
 }
 
 async function updateUser(event) {
-  event.preventDefault(); 
+  event.preventDefault();
 
   const apiUrl = `http://127.0.0.1:8080/api/users/${updateUserId}`;
 
   const roleString = document.getElementById("roleId").value;
   const roleObject = { roleId: parseInt(roleString, 10) };
 
-
   const updatedUserData = {
     userName: document.getElementById("userName").value,
     userMail: document.getElementById("userMail").value,
     roleId: roleObject,
   };
-
 
   try {
     await fetch(apiUrl, {
@@ -88,31 +86,30 @@ async function updateUser(event) {
 }
 
 async function fetchUserDetails(updateUserId) {
-    const apiUrl = `http://127.0.0.1:8080/api/users/${updateUserId}`;
+  const apiUrl = `http://127.0.0.1:8080/api/users/${updateUserId}`;
 
-    try {
-      const response = await fetch(apiUrl, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
-  
-      if (!response.ok) {
-        throw new Error(`Failed to fetch task details: ${response.status}`);
-      }
-  
-      const userData = await response.json();
-  
-      // Populate form fields with task details
-      document.getElementById("userId").value = userData.userId;
-      document.getElementById("userName").value = userData.userName;
-      document.getElementById("userMail").value = userData.userMail;
-      document.getElementById("roleId").value = userData.roleId.roleId;
-    } catch (error) {
-      console.error("Error fetching task details:", error);
+  try {
+    const response = await fetch(apiUrl, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch task details: ${response.status}`);
     }
+
+    const userData = await response.json();
+
+    document.getElementById("userId").value = userData.userId;
+    document.getElementById("userName").value = userData.userName;
+    document.getElementById("userMail").value = userData.userMail;
+    document.getElementById("roleId").value = userData.roleId.roleId;
+  } catch (error) {
+    console.error("Error fetching task details:", error);
+  }
 }
 
 function showFor4SecondsForSuccess() {
@@ -135,6 +132,6 @@ function showFor4SecondsForFailure() {
   }, 4000);
 }
 
-function cancelUpdate(){
+function cancelUpdate() {
   window.location.href = "../allUsers/allUsers.html";
 }

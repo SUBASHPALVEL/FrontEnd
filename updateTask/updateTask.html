@@ -1,23 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Task Management System - Update Task</title>
-    <link rel="stylesheet" href="updateTask.css">
-</head>
-<body>
+    <link rel="stylesheet" href="updateTask.css" />
+  </head>
+  <body>
     <form id="taskUpdateForm" onsubmit="updateTask(event)">
-    <div id="container">
+      <div id="container">
         <h1>Update Task</h1>
         <label for="taskId">Task ID:</label>
-        <input type="text" id="taskId" placeholder="Enter task ID">
+        <input type="text" id="taskId" placeholder="Enter task ID" />
 
         <label for="title">Title:</label>
-        <input type="text" id="title" placeholder="Enter task title">
+        <input type="text" id="title" placeholder="Enter task title" />
 
         <label for="description">Description:</label>
-        <textarea id="description" placeholder="Enter task description"></textarea>
+        <textarea
+          id="description"
+          placeholder="Enter task description"
+        ></textarea>
 
         <label for="status">Status:</label>
         <select id="status"></select>
@@ -26,29 +29,35 @@
         <select id="priority"></select>
 
         <label for="dueDate">Due Date:</label>
-        <input type="date" id="dueDate">
+        <input type="date" id="dueDate" />
 
         <label for="completedDate">Completed Date:</label>
-        <input type="date" id="completedDate">
+        <input type="date" id="completedDate" />
 
         <label for="assignedUsers">Assigned Users:</label>
-        <input type="text" id="assignedUsers" placeholder="Enter comma-separated user IDs">
+        <input
+          type="text"
+          id="assignedUsers"
+          placeholder="Enter comma-separated user IDs"
+        />
 
-        <button class="button" >Update Task</button>
-        <button class="button" type="button" onclick="cancelUpdate()">Cancel</button>
-        
+        <button class="button">Update Task</button>
+        <button class="button" type="button" onclick="cancelUpdate()">
+          Cancel
+        </button>
+
         <div id="response"></div>
-    </div>
+      </div>
 
-    <div class="success-message" id="successMessage">
+      <div class="success-message" id="successMessage">
         <p>Task Update successful!</p>
-    </div>
+      </div>
 
-    <div class="failure-message" id="failureMessage">
+      <div class="failure-message" id="failureMessage">
         <p>Task Update Failed!</p>
-    </div>
+      </div>
     </form>
 
     <script src="updateTask.js"></script>
-</body>
+  </body>
 </html>

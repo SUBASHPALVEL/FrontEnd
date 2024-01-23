@@ -42,7 +42,6 @@ async function fetchStatusOptions() {
     const statusData = await response.json();
     const statusSelect = document.getElementById("status");
 
-    // Populate the status dropdown with options from the API
     statusData.forEach((status) => {
       const option = document.createElement("option");
       option.value = status.statusId;
@@ -73,7 +72,6 @@ async function fetchPriorityOptions() {
     const priorityData = await response.json();
     const prioritySelect = document.getElementById("priority");
 
-    // Populate the status dropdown with options from the API
     priorityData.forEach((priority) => {
       const option = document.createElement("option");
       option.value = priority.priorityId;
@@ -85,7 +83,6 @@ async function fetchPriorityOptions() {
   }
 }
 
-// Function to update task details
 async function updateTask(event) {
   event.preventDefault();
 
@@ -165,7 +162,6 @@ async function fetchTaskDetails(updateTaskId) {
 
     const taskData = await response.json();
 
-    // Populate form fields with task details
     document.getElementById("taskId").value = taskData.taskId;
     document.getElementById("title").value = taskData.title;
     document.getElementById("description").value = taskData.description;
@@ -210,10 +206,9 @@ function showFor4SecondsForFailure() {
       window.location.href = "../allTasks/allTasks.html";
     } else if (previousPage.includes("userTasks/userTasks.html")) {
       window.location.href = "../userTasks/userTasks.html";
-    }else {
+    } else {
       window.location.href = "../homepage/homepage.html";
     }
-    
   }, 4000);
 }
 
@@ -224,7 +219,7 @@ function cancelUpdate() {
     window.location.href = "../allTasks/allTasks.html";
   } else if (previousPage.includes("userTasks/userTasks.html")) {
     window.location.href = "../userTasks/userTasks.html";
-  }else {
+  } else {
     window.location.href = "../homepage/homepage.html";
   }
 }

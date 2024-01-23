@@ -1,55 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Create User</title>
-    <link rel="stylesheet" type="text/css" href="createUser.css">
-    
-</head>
-<body>
-
-    
+    <link rel="stylesheet" type="text/css" href="createUser.css" />
+  </head>
+  <body>
     <form id="newUserForm" onsubmit="createUser(event)">
-        <h1>Create User</h1>
-        <!-- Username -->
-        <label for="userName">Username:</label>
-        <input type="text" id="userName" name="userName" required>
-        <br>
+      <h1>Create User</h1>
 
-        <!-- User Email -->
-        <label for="userMail">User Email:</label>
-        <input type="email" id="userMail" name="userMail" required>
-        <br>
+      <label for="userName">Username:</label>
+      <input type="text" id="userName" name="userName" required />
+      <br />
 
-        <!-- User Password -->
-        <label for="password">User Password:</label>
-        <input type="password" id="password" name="password" required>
-        <br>
+      <label for="userMail">User Email:</label>
+      <input type="email" id="userMail" name="userMail" required />
+      <br />
 
-        <label for="roleId">Role ID:</label>
-        <select id="roleId"></select>
+      <label for="password">User Password:</label>
+      <input type="password" id="password" name="password" required />
+      <br />
 
-        <button class="button">Update User</button>
-        <button class="button" type="button" onclick="handleCancel()">Cancel</button>
-        
-        <!-- Add this div to display the response -->
+      <label for="roleId">Role ID:</label>
+      <select id="roleId"></select>
 
+      <button class="button">Update User</button>
+      <button class="button" type="button" onclick="handleCancel()">
+        Cancel
+      </button>
 
+      <div class="success-message" id="successMessage">
+        <p>User update successful!</p>
+      </div>
 
-        <div class="success-message" id="successMessage">
-            <p>User update successful!</p>
-        </div>
-    
-        <div class="failure-message" id="failureMessage">
-            <p>User update failed!</p>
-        </div>
-
-
-
+      <div class="failure-message" id="failureMessage">
+        <p>User update failed!</p>
+      </div>
     </form>
-    
-    <script src="CreateUser.js"></script>
-</body>
 
+    <script src="CreateUser.js"></script>
+  </body>
 </html>
