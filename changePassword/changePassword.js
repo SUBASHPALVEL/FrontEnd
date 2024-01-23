@@ -5,20 +5,16 @@ const formContainer = document.getElementById("changePasswordForm");
 const successMessage = document.getElementById("successMessage");
 const failureMessage = document.getElementById("failureMessage");
 
-
-
 async function changePassword(event) {
   event.preventDefault();
 
-  const apiUrl = 'http://localhost:8080/api/users/change-password';
-
+  const apiUrl = "http://localhost:8080/api/users/change-password";
 
   const newUserData = {
     userName: document.getElementById("userName").value,
     oldPassword: document.getElementById("oldPassword").value,
     newPassword: document.getElementById("newPassword").value,
   };
-
 
   try {
     await fetch(apiUrl, {
@@ -44,26 +40,25 @@ async function changePassword(event) {
   }
 }
 
-
 function showFor4SecondsForSuccess() {
-    formContainer.style.opacity = "0.5";
-    successMessage.style.display = "block";
-    setTimeout(() => {
-      successMessage.style.display = "none";
-      formContainer.style.opacity = "1";
-      window.location.href = "../homepage/homepage.html";
-    }, 4000);
-  }
-  
-  function showFor4SecondsForFailure() {
-    failureMessage.style.display = "block";
-    formContainer.style.opacity = "0.5";
-    setTimeout(() => {
-      failureMessage.style.display = "none";
-      formContainer.style.opacity = "1";
-    }, 4000);
-  }
-  
-  function handleCancel(){
+  formContainer.style.opacity = "0.5";
+  successMessage.style.display = "block";
+  setTimeout(() => {
+    successMessage.style.display = "none";
+    formContainer.style.opacity = "1";
     window.location.href = "../homepage/homepage.html";
-  }
+  }, 4000);
+}
+
+function showFor4SecondsForFailure() {
+  failureMessage.style.display = "block";
+  formContainer.style.opacity = "0.5";
+  setTimeout(() => {
+    failureMessage.style.display = "none";
+    formContainer.style.opacity = "1";
+  }, 4000);
+}
+
+function handleCancel() {
+  window.location.href = "../homepage/homepage.html";
+}
