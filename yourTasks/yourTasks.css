@@ -96,9 +96,6 @@ h1 {
   text-align: center;
 }
 
-
-
-
 .logoutButton,
 .refreshButton,
 .homeButton {
@@ -107,24 +104,22 @@ h1 {
   border: none;
   padding: 5px 10px;
   cursor: pointer;
-  margin: 0rem 1rem;  
+  margin: 0rem 1rem;
 }
 
 .buttons-right {
   position: absolute;
   top: 3.6rem;
-  left: 72rem;   
+  left: 72rem;
   text-align: center;
 }
 
 .buttons-left {
   position: absolute;
-  top: 3.6rem; 
-  right: 72.5rem;   
+  top: 3.6rem;
+  right: 72.5rem;
   text-align: center;
 }
-
-
 
 .success-message {
   display: none;
@@ -154,28 +149,10 @@ h1 {
   z-index: 2;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*   Consider in the final state */
 button {
   background-color: #4caf50;
   color: white;
   border: none;
   padding: 5px 10px;
   cursor: pointer;
-} 
+}
