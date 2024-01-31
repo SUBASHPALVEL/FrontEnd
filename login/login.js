@@ -39,7 +39,8 @@ function login() {
       } else {
         localStorage.setItem("userId", data.userId);
         localStorage.setItem("token", data.token);
-        console.log(data.token);
+        localStorage.setItem("isAdmin", data.roleId.roleId);
+        console.log(data.roleId.roleId);
         showFor4SecondsForSuccess();
       }
     })
