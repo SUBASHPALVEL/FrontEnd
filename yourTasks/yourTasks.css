@@ -50,14 +50,6 @@ th {
   padding: 63.5px;
 }
 
-.refreshIcon {
-  float: right;
-  margin-right: 10px;
-  height: 1.875rem;
-  width: 1.875rem;
-  display: none;
-}
-
 @keyframes spin {
   0% {
     transform: rotate(0deg);
@@ -97,7 +89,6 @@ h1 {
 }
 
 .logoutButton,
-.refreshButton,
 .homeButton {
   background-color: #ffffff;
   color: #4caf50;
