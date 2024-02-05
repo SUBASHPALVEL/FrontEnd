@@ -3,45 +3,44 @@ updateUserId = localStorage.getItem("updateUserId");
 const formContainer = document.getElementById("newUserForm");
 const successMessage = document.getElementById("successMessage");
 const failureMessage = document.getElementById("failureMessage");
+const errorElement = document.getElementById('errorMessage');
 
 async function createUser(event) {
   event.preventDefault();
 
   const apiUrl = "http://127.0.0.1:8080/auth/admin";
 
-  const roleString = document.getElementById("roleId").value;
-  const roleObject = { roleId: parseInt(roleString, 10) };
-
   const newUserData = {
     name:document.getElementById("name").value,
     userName: document.getElementById("userName").value,
     userMail: document.getElementById("userMail").value,
     password: document.getElementById("password").value,
-    roleId: roleObject,
   };
 
+
   try {
-    await fetch(apiUrl, {
+    const response = await fetch(apiUrl, {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify(newUserData),
-    }).then((response) => {
-      if (!response.ok) {
-        console.log(response.status);
-        showFor4SecondsForFailure();
-        throw new Error(`Failed to update task: ${response.status}`);
-      }
-
-      console.log("Task updated successfully:");
-      showFor4SecondsForSuccess();
     });
+  
+    if (!response.ok) {
+      const errorMessage = await response.text();
+      throw new Error(errorMessage);
+    }
+  
+    console.log("Task updated successfully:");
+    showFor4SecondsForSuccess();
   } catch (error) {
+    errorElement.innerText = error.message;
+    showFor4SecondsForFailure();
     console.error("Error updating task:", error);
     showFor4SecondsForFailure();
   }
+
 }
 
 function showFor4SecondsForSuccess() {
