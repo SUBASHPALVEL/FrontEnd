@@ -5,6 +5,8 @@ document.addEventListener("DOMContentLoaded", function () {
 const formContainer = document.getElementById("userList");
 const successMessage = document.getElementById("successMessage");
 const failureMessage = document.getElementById("failureMessage");
+const errorElement = document.getElementById("errorMessage");
+const errorCodeElement = document.getElementById("errorCode");
 
 const token = localStorage.getItem("token");
 async function fetchData() {
@@ -20,13 +22,17 @@ async function fetchData() {
     });
 
     if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
+      const errorMessage = await response.text();
+      throw new Error(errorMessage);
     }
 
     const data = await response.json();
     populateTable(data);
   } catch (error) {
-    console.error("Error fetching data:", error);
+    let errorCode = "Fetching Users Failed";
+    errorCodeElement.innerHTML = errorCode;
+    errorElement.innerText = error.message;
+    showFor4SecondsForFailure();
   }
 }
 
@@ -40,6 +46,7 @@ function populateTable(data) {
       const row = document.createElement("tr");
       row.innerHTML = `
                     <td>${user.userId}</td>
+                    <td>${user.name}</td>
                     <td>${user.userName}</td>
                     <td>${user.userMail}</td>
                     <td>${user.roleId.designation}</td>
@@ -77,27 +84,22 @@ async function handleDelete(event) {
   const apiUrl = `http://127.0.0.1:8080/api/users/${deleteUserId}`;
 
   try {
-    await fetch(apiUrl, {
+    const response = await fetch(apiUrl, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
-    }).then((response) => {
-      if (!response.ok) {
-        console.log(response.status);
-        showFor4SecondsForFailure();
-        throw new Error(`Failed to delete user: ${response.status}`);
-      }
-
-      console.log("User deleted successfully:");
-      showFor4SecondsForSuccess();
-      console.log("show success:");
-
-      console.log("After fetching");
     });
+
+    if (!response.ok) {
+      const errorMessage = await response.text();
+      throw new Error(errorMessage);
+    }
+
+    showFor4SecondsForSuccess();
   } catch (error) {
-    console.error("Error updating task:", error);
+    errorElement.innerText = error.message;
     showFor4SecondsForFailure();
   }
 }
@@ -108,8 +110,8 @@ function handleHome() {
 
 // Handle logout button click
 function handleLogout() {
-  window.location.href = "../login/login.html";
   localStorage.clear();
+  window.location.href = "../login/login.html";
 }
 
 function showFor4SecondsForSuccess() {
