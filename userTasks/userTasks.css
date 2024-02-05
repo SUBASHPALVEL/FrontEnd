@@ -50,13 +50,6 @@ th {
   padding: 63.5px;
 }
 
-.refreshIcon {
-  float: right;
-  margin-right: 10px;
-  height: 1.875rem;
-  width: 1.875rem;
-  display: none;
-}
 
 @keyframes spin {
   0% {
@@ -82,7 +75,7 @@ th {
   border: 1px solid #4caf50;
 }
 
-#student-table thead {
+#task-table thead {
   background-color: #f1f1f1;
   position: sticky;
   top: 0;
@@ -96,50 +89,62 @@ h1 {
   text-align: center;
 }
 
-
-.buttons-left {
-    position: absolute;
-    top: 3.6rem;
-    left: 64rem;   
-    text-align: center;
-  }
-  
-  .buttons-right {
-    position: absolute;
-    top: 3.6rem; 
-    right: 72.5rem;   
-    text-align: center;
-  }
-
 .logoutButton,
-.refreshButton,
 .homeButton {
   background-color: #ffffff;
   color: #4caf50;
   border: none;
   padding: 5px 10px;
   cursor: pointer;
-  margin: 0rem 1rem;  
+  margin: 0rem 1rem;
 }
 
+.buttons-right {
+  position: absolute;
+  top: 3.6rem;
+  left: 72rem;
+  text-align: center;
+}
 
+.buttons-left {
+  position: absolute;
+  top: 3.6rem;
+  right: 72.5rem;
+  text-align: center;
+}
 
+.success-message {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #4caf50;
+  color: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+  z-index: 2;
+}
 
+.failure-message {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: red;
+  color: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+  z-index: 2;
+}
 
-
-
-
-
-
-
-
-
-
-/*   Consider in the final state */
 button {
   background-color: #4caf50;
   color: white;
   border: none;
   padding: 5px 10px;
   cursor: pointer;
-} 
+}

@@ -2,13 +2,19 @@ let updateUserId;
 const token = localStorage.getItem("token");
 updateUserId = localStorage.getItem("updateUserId");
 let roleIdOptionsFetched = false;
-const formContainer = document.getElementById("newUserForm");
+let userDetailsFetched = false;
+const formContainer = document.getElementById("userUpdateForm");
 const successMessage = document.getElementById("successMessage");
 const failureMessage = document.getElementById("failureMessage");
 
 if (!roleIdOptionsFetched) {
   fetchRoleIdOptions();
   roleIdOptionsFetched = true;
+}
+
+if (!userDetailsFetched) {
+  fetchUserDetails(updateUserId);
+  userDetailsFetched = true;
 }
 
 async function fetchRoleIdOptions() {
@@ -41,30 +47,28 @@ async function fetchRoleIdOptions() {
   }
 }
 
-async function createUser(event) {
+async function updateUser(event) {
   event.preventDefault();
 
-  const apiUrl = "http://127.0.0.1:8080/api/users";
+  const apiUrl = `http://127.0.0.1:8080/api/users/${updateUserId}`;
 
   const roleString = document.getElementById("roleId").value;
   const roleObject = { roleId: parseInt(roleString, 10) };
 
-  const newUserData = {
-    name:document.getElementById("name").value,
+  const updatedUserData = {
     userName: document.getElementById("userName").value,
     userMail: document.getElementById("userMail").value,
-    password: document.getElementById("password").value,
     roleId: roleObject,
   };
 
   try {
     await fetch(apiUrl, {
-      method: "POST",
+      method: "PUT",
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(newUserData),
+      body: JSON.stringify(updatedUserData),
     }).then((response) => {
       if (!response.ok) {
         console.log(response.status);
@@ -72,12 +76,39 @@ async function createUser(event) {
         throw new Error(`Failed to update task: ${response.status}`);
       }
 
-      console.log("Task updated successfully:");
+      console.log("Task updated successfully:", updatedUserData);
       showFor4SecondsForSuccess();
     });
   } catch (error) {
     console.error("Error updating task:", error);
     showFor4SecondsForFailure();
+  }
+}
+
+async function fetchUserDetails(updateUserId) {
+  const apiUrl = `http://127.0.0.1:8080/api/users/${updateUserId}`;
+
+  try {
+    const response = await fetch(apiUrl, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch task details: ${response.status}`);
+    }
+
+    const userData = await response.json();
+
+    document.getElementById("userId").value = userData.userId;
+    document.getElementById("userName").value = userData.userName;
+    document.getElementById("userMail").value = userData.userMail;
+    document.getElementById("roleId").value = userData.roleId.roleId;
+  } catch (error) {
+    console.error("Error fetching task details:", error);
   }
 }
 
@@ -97,9 +128,10 @@ function showFor4SecondsForFailure() {
   setTimeout(() => {
     failureMessage.style.display = "none";
     formContainer.style.opacity = "1";
+    window.location.href = "../allUsers/allUsers.html";
   }, 4000);
 }
 
-function handleCancel() {
-  window.location.href = "../homepage/homepage.html";
+function cancelUpdate() {
+  window.location.href = "../allUsers/allUsers.html";
 }

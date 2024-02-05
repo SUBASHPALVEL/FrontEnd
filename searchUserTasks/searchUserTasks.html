@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Search User Tasks</title>
+    <link rel="stylesheet" type="text/css" href="searchUserTasks.css" />
+  </head>
+  <body>
+    <form id="searchUserTasksForm" onsubmit="searchUserTasks(event)">
+      <h1>Search User Tasks</h1>
+
+      <label for="searchUserTasksID">User ID:</label>
+      <input
+        type="text"
+        id="searchUserTasksID"
+        name="searchUserTasksID"
+        required
+        required
+        placeholder="Enter User ID"
+      />
+      <br />
+
+      <button class="button">Search</button>
+      <button class="button" type="button" onclick="handleCancel()">
+        Cancel
+      </button>
+
+      <div class="success-message" id="successMessage">
+        <p>User update successful!</p>
+      </div>
+
+      <div class="failure-message" id="failureMessage">
+        <p>User update failed!</p>
+      </div>
+    </form>
+
+    <script src="searchUserTasks.js"></script>
+  </body>
+</html>

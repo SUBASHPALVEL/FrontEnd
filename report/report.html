@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Report</title>
+    <link rel="stylesheet" href="report.css" />
+  </head>
+  <body>
+    <div class="container" id="reportContainer">
+      <h1>
+        Report
+        <div class="buttons-left">
+          <button type="button" class="homeButton" onclick="handleHome()">
+            Home
+          </button>
+        </div>
+        <div class="buttons-right">
+          <button type="button" class="logoutButton" onclick="handleLogout()">
+            Logout
+          </button>
+        </div>
+      </h1>
+
+      <div class="chart-container">
+        <div class="chart-item">
+          <h2>Status Chart</h2>
+
+          <canvas id="statusChart"></canvas>
+        </div>
+
+        <div class="chart-item">
+          <h2>Priority Chart</h2>
+          <canvas id="priorityChart"></canvas>
+        </div>
+
+        <div class="chart-item">
+          <h2>Designation Chart</h2>
+          <canvas id="designationChart"></canvas>
+        </div>
+      </div>
+
+      <div class="summary-container">
+        <div class="summary-item">
+          <h2>Total Users</h2>
+          <p id="totalUsersText"></p>
+        </div>
+
+        <div class="summary-item">
+          <h2>Total Tasks</h2>
+          <p id="totalTasksText"></p>
+        </div>
+
+        <div class="summary-item">
+          <h2>Total Assignments</h2>
+          <p id="totalAssignmentText"></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="failure-message" id="failureMessage">
+      <p>Dashboard Creation Failed!</p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="report.js"></script>
+  </body>
+</html>

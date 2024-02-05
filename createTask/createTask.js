@@ -1,67 +1,145 @@
+const formContainer = document.getElementById("taskCreationForm");
 const successMessage = document.getElementById("successMessage");
 const failureMessage = document.getElementById("failureMessage");
 
-let createdDate= new Date().toISOString().split("T")[0];
-let completedDate= null;
+const token = localStorage.getItem("token");
 
-function createTask() {
+let createdDate = new Date().toISOString().split("T")[0];
+let completedDate = null;
+
+let statusOptionsFetched = false;
+let priorityOptionsFetched = false;
+
+if (!statusOptionsFetched) {
+  fetchStatusOptions();
+  statusOptionsFetched = true;
+}
+
+if (!priorityOptionsFetched) {
+  fetchPriorityOptions();
+  priorityOptionsFetched = true;
+}
+
+function createTask(event) {
+  event.preventDefault();
   const apiUrl = "http://127.0.0.1:8080/api/tasks";
-  const title = document.getElementById("title").value;
-  const description = document.getElementById("description").value;
-  const status = document.getElementById("status").value;
-  const priority = document.getElementById("priority").value;
-  const dueDate = document.getElementById("dueDate").value;
-  const assignedUsersInput = document.getElementById("assignedUsers").value;
 
-  // Validate assignedUsers input
-  const assignedUsers = validateAssignedUsers(assignedUsersInput);
-  if (!assignedUsers) {
-    // Show an error message and return from the function
-    showFor4SecondsForFailure();
-    console.log("NO ASSIGNED");
-    
-  } else 
-    //   requestBody = {
-    //   title: title,
-    //   description: description,
-    //   status: status,
-    //   priority: priority,
-    //   dueDate: dueDate,
-    //   createdDate: new Date().toISOString().split("T")[0],
-    //   completedDate: null,
-    //   assignedUsers: assignedUsers,
-    // };
+  const assignedUsersArray = document
+    .getElementById("assignedUsers")
+    .value.split(",")
+    .map((user) => user.trim());
 
-    // console.log(requestBody);
+  const priorityString = document.getElementById("priority").value;
+  const priorityObject = { priorityId: parseInt(priorityString, 10) };
 
+  const statusString = document.getElementById("status").value;
+  const statusObject = { statusId: parseInt(statusString, 10) };
+
+  const today = new Date();
+  const createdDate = today.toISOString().split("T")[0];
+
+  const newTask = {
+    title: document.getElementById("title").value,
+    description: document.getElementById("description").value,
+
+    status: statusObject,
+    priority: priorityObject,
+
+    createdDate: createdDate,
+
+    dueDate: document.getElementById("dueDate").value,
+    assignedUsers: assignedUsersArray.map((userId) => {
+      return { userId: parseInt(userId) };
+    }),
+  };
+
+  try {
     fetch(apiUrl, {
       method: "POST",
       headers: {
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ title, description,status ,
-        priority,dueDate,createdDate,completedDate ,assignedUsers}),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.taskId == undefined) {
-          showFor4SecondsForFailure();
-          // resetForm();
-          console.log("failure");
-        } else {
-          showFor4SecondsForSuccess();
-        }
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+      body: JSON.stringify(newTask),
+    }).then((response) => {
+      if (!response.ok) {
+        console.log(response.status);
+        showFor4SecondsForFailure();
+        throw new Error(`Failed to create task: ${response.status}`);
+      }
+
+      console.log("Task created successfully:");
+      showFor4SecondsForSuccess();
+    });
+  } catch (error) {
+    console.error("Error creating task:", error);
+    showFor4SecondsForFailure();
   }
+}
+
+async function fetchStatusOptions() {
+  const apiUrl = "http://127.0.0.1:8080/api/status";
+
+  try {
+    const response = await fetch(apiUrl, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch status options: ${response.status}`);
+    }
+
+    const statusData = await response.json();
+    const statusSelect = document.getElementById("status");
+
+    statusData.forEach((status) => {
+      const option = document.createElement("option");
+      option.value = status.statusId;
+      option.textContent = status.statusLevel;
+      statusSelect.appendChild(option);
+    });
+  } catch (error) {
+    console.error("Error fetching status options:", error);
+  }
+}
+
+async function fetchPriorityOptions() {
+  const apiUrl = "http://127.0.0.1:8080/api/priorities";
+
+  try {
+    const response = await fetch(apiUrl, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch status options: ${response.status}`);
+    }
+
+    const priorityData = await response.json();
+    const prioritySelect = document.getElementById("priority");
+
+    priorityData.forEach((priority) => {
+      const option = document.createElement("option");
+      option.value = priority.priorityId;
+      option.textContent = priority.priorityStatus;
+      prioritySelect.appendChild(option);
+    });
+  } catch (error) {
+    console.error("Error fetching status options:", error);
+  }
+}
 
 function validateAssignedUsers(input) {
-  // Split the input into an array of user IDs
   const userIDs = input.split(",").map((id) => parseInt(id.trim()));
 
-  // Check if any user ID is not a valid number
   if (userIDs.some(isNaN)) {
     return null;
   }
@@ -76,7 +154,7 @@ function showFor4SecondsForSuccess() {
     successMessage.style.display = "none";
     formContainer.style.opacity = "1";
     resetForm();
-    window.location.href = "";
+    window.location.href = "../homepage/homepage.html";
   }, 4000);
 }
 
@@ -91,4 +169,8 @@ function showFor4SecondsForFailure() {
 
 function resetForm() {
   document.getElementById("taskCreationForm").reset();
+}
+
+function handleCancel() {
+  window.location.href = "../homepage/homepage.html";
 }

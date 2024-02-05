@@ -3,19 +3,19 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Task Management</title>
+    <title>User Tasks</title>
     <link rel="stylesheet" href="userTasks.css" />
   </head>
   <body>
-    <div class="container">
-      <h1>Task Management
-        <div class="buttons-right">
-            <button type="button" class="homeButton" onclick="handleHome()" >Home</button>
-        </div>
+    <div class="container" id ="taskList">
+      <h1>User Tasks
         <div class="buttons-left">
-            <img src="../Images/refresh.png" alt="Refresh Icon" class="refreshIcon" id="refreshIcon"></img>
-            <button type="button" class="refreshButton" onclick="handleRefresh()" >Refresh List</button>
+            <button type="button" class="homeButton" onclick="handleHome()" >Home</button>
+            
+        </div>
+        <div class="buttons-right">
             <button type="button" class="logoutButton" onclick="handleLogout()" >Logout</button>
+            
         </div>
       </h1>
       
@@ -33,7 +33,8 @@
               <th>Due Date</th>
               <th>Completed Date</th>
               <th>Assigned Users</th>
-              <th>Action</th>
+              <th>Edit</th>
+              <th>Delete</th>
             </tr>
           </thead>
           <tbody id="task-table-body">
@@ -41,9 +42,16 @@
           </tbody>
         </table>
       </div>
-      <img src="../Images/NoData.jpg" alt="No Data" class="no-Data">
-    <img src="../Images/loading.gif" alt="Loading" class="loadingGif" id="loadingGif"></img>
+      <img src="../images/noData.jpg" alt="No Data" class="no-Data">
+    <img src="../images/loading.gif" alt="Loading" class="loadingGif" id="loadingGif"></img>
     
+    </div>
+    <div class="success-message" id="successMessage">
+        <p>User deleted successful!</p>
+    </div>
+  
+    <div class="failure-message" id="failureMessage">
+        <p>User deletion failed!</p>
     </div>
      
     <script src="userTasks.js"></script>

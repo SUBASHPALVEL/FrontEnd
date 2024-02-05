@@ -1,0 +1,149 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 100%;
+  min-height: 32.5rem;
+  margin: 1rem;
+  padding: 1rem;
+  border: 0.0625rem solid #ccc;
+  border-radius: 0.3125rem;
+  box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.1);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  border: 0.0625rem solid #ddd;
+  padding: 0.625rem;
+  text-align: left;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+.edit-btn {
+  cursor: pointer;
+  color: #4caf50;
+  text-decoration: underline;
+}
+
+.delete-btn {
+  cursor: pointer;
+  color: red;
+  text-decoration: underline;
+}
+
+.no-Data {
+  width: 250px;
+  height: 250px;
+  margin: 0 auto;
+  display: none;
+  padding: 63.5px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loadingGif {
+  display: none;
+  width: 50px;
+  height: 50px;
+  margin: 0 auto;
+  display: none;
+  padding: 163.5px;
+}
+
+.table-container {
+  max-height: 400px;
+  overflow-y: auto;
+  border: 1px solid #4caf50;
+}
+
+#task-table thead {
+  background-color: #f1f1f1;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+h1 {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px;
+  text-align: center;
+}
+
+.logoutButton,
+.homeButton {
+  background-color: #ffffff;
+  color: #4caf50;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  margin: 0rem 1rem;
+}
+
+.buttons-right {
+  position: absolute;
+  top: 3.6rem;
+  left: 72rem;
+  text-align: center;
+}
+
+.buttons-left {
+  position: absolute;
+  top: 3.6rem;
+  right: 72.5rem;
+  text-align: center;
+}
+
+.success-message {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #4caf50;
+  color: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+  z-index: 2;
+}
+
+.failure-message {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: red;
+  color: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+  z-index: 2;
+}
+
+button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}

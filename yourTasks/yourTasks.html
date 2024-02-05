@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Your Tasks</title>
+    <link rel="stylesheet" href="yourTasks.css" />
+  </head>
+  <body>
+    <div class="container" id ="taskList">
+      <h1>Your Tasks
+        <div class="buttons-left">
+            <button type="button" class="homeButton" onclick="handleHome()" >Home</button>
+            
+        </div>
+        <div class="buttons-right">
+            <button type="button" class="logoutButton" onclick="handleLogout()" >Logout</button>
+            
+        </div>
+      </h1>
+      
+      <div class="table-container">
+        <table id="task-table">
+          <thead>
+            <tr>
+              <th>Task ID</th>
+              <th>Title</th>
+              <th>Description</th>
+              <th>Priority</th>
+              <th>Status</th>
+              <th>Created Date</th>
+              <th>Modified Date</th>
+              <th>Due Date</th>
+              <th>Completed Date</th>
+              <th>Assigned Users</th>
+              <th>Edit</th>
+              <th>Delete</th>
+            </tr>
+          </thead>
+          <tbody id="task-table-body">
+            <!-- Tasks will be dynamically added here -->
+          </tbody>
+        </table>
+      </div>
+      <img src="../images/noData.jpg" alt="No Data" class="no-Data">
+    <img src="../images/loading.gif" alt="Loading" class="loadingGif" id="loadingGif"></img>
+    
+    </div>
+    <div class="success-message" id="successMessage">
+        <p>User deleted successful!</p>
+    </div>
+  
+    <div class="failure-message" id="failureMessage">
+        <p>User deletion failed!</p>
+    </div>
+     
+    <script src="yourTasks.js"></script>
+  </body>
+</html>

@@ -1,33 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>All Users</title>
-    <link rel="stylesheet" href="allUsers.css">
-</head>
-<body>
-    <h2>Task Management</h2>
-    <div class="buttons">
-        <button onclick="goBack()">Go Back</button>
-        <button onclick="logout()">Logout</button>
-    </div>
-    <div class="container">
-        
-        <table id="usersTableBody">
-            <thead>
-                <tr>
-                    <th>User ID</th>
-                    <th>Username</th>
-                    <th>Assigned Tasks</th>
-                </tr>
-            </thead>
-            <tbody id="userTaskTableBody">
-                <!-- Tasks will be dynamically added here -->
-            </tbody>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Management</title>
+    <link rel="stylesheet" href="allUsers.css" />
+  </head>
+  <body>
+    <div class="container" id ="userList">
+      <h1>All Users
+        <div class="buttons-left">
+            <button type="button" class="homeButton" onclick="handleHome()" >Home</button>
+        </div>
+        <div class="buttons-right">
+            <button type="button" class="logoutButton" onclick="handleLogout()" >Logout</button>
+        </div>
+      </h1>
+      
+      <div class="table-container">
+        <table id="user-table">
+          <thead>
+            <tr>
+                <th>User ID</th>
+                <th>User Name</th>
+                <th>User Mail</th>
+                <th>Designation</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+          </thead>
+          <tbody id="user-table-body">
+            <!-- Tasks will be dynamically added here -->
+          </tbody>
         </table>
-    </div>
+      </div>
+      <img src="../images/noData.jpg" alt="No Data" class="no-Data">
+    <img src="../images/loading.gif" alt="Loading" class="loadingGif" id="loadingGif"></img>
     
+    </div>
+    <div class="success-message" id="successMessage">
+      <p>User deleted successful!</p>
+  </div>
+
+  <div class="failure-message" id="failureMessage">
+      <p>User deletion failed!</p>
+  </div>
+     
     <script src="allUsers.js"></script>
-</body>
+  </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
