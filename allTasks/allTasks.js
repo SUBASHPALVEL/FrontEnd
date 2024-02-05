@@ -48,10 +48,10 @@ function populateTable(data) {
                       <td>${task.description}</td>
                       <td>${task.priority.priorityStatus}</td>
                       <td>${task.status.statusLevel}</td>
-                      <td>${task.createdDate}</td>
-                      <td>${task.modifiedDate || "N/A"}</td>
-                      <td>${task.dueDate || "N/A"}</td>
-                      <td>${task.completedDate || "N/A"}</td>
+                      <td>${task.createdAt}</td>
+                      <td>${task.lastModifiedAt || "N/A"}</td>
+                      <td>${task.dueAt || "N/A"}</td>
+                      <td>${task.completedAt || "N/A"}</td>
                       
                       <td>${task.assignedUsers
                         .map((user) => user.userName)
