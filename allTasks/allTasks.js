@@ -48,7 +48,7 @@ function populateTable(data) {
                       <td>${task.description}</td>
                       <td>${task.priority.priorityStatus}</td>
                       <td>${task.status.statusLevel}</td>
-                      <td>${task.createdAt}</td>
+                      <td>${task.createdAt.split("T")[0]}</td>
                       <td>${task.lastModifiedAt || "N/A"}</td>
                       <td>${task.dueAt || "N/A"}</td>
                       <td>${task.completedAt || "N/A"}</td>
