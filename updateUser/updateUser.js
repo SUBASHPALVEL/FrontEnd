@@ -3,9 +3,12 @@ const token = localStorage.getItem("token");
 updateUserId = localStorage.getItem("updateUserId");
 let roleIdOptionsFetched = false;
 let userDetailsFetched = false;
+
 const formContainer = document.getElementById("userUpdateForm");
 const successMessage = document.getElementById("successMessage");
 const failureMessage = document.getElementById("failureMessage");
+const errorElement = document.getElementById("errorMessage");
+const errorCodeElement = document.getElementById("errorCode");
 
 if (!roleIdOptionsFetched) {
   fetchRoleIdOptions();
@@ -30,7 +33,8 @@ async function fetchRoleIdOptions() {
     });
 
     if (!response.ok) {
-      throw new Error(`Failed to fetch status options: ${response.status}`);
+      const errorMessage = await response.text();
+      throw new Error(errorMessage);
     }
 
     const roleData = await response.json();
@@ -43,7 +47,10 @@ async function fetchRoleIdOptions() {
       roleSelect.appendChild(option);
     });
   } catch (error) {
-    console.error("Error fetching status options:", error);
+    let errorCode = "Fetching Roles Failed";
+    errorCodeElement.innerHTML = errorCode;
+    errorElement.innerText = error.message;
+    showFor4SecondsForFailure();
   }
 }
 
@@ -56,31 +63,32 @@ async function updateUser(event) {
   const roleObject = { roleId: parseInt(roleString, 10) };
 
   const updatedUserData = {
+    name: document.getElementById("name").value,
     userName: document.getElementById("userName").value,
     userMail: document.getElementById("userMail").value,
     roleId: roleObject,
   };
 
   try {
-    await fetch(apiUrl, {
+    const response = await fetch(apiUrl, {
       method: "PUT",
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify(updatedUserData),
-    }).then((response) => {
-      if (!response.ok) {
-        console.log(response.status);
-        showFor4SecondsForFailure();
-        throw new Error(`Failed to update task: ${response.status}`);
-      }
-
-      console.log("Task updated successfully:", updatedUserData);
-      showFor4SecondsForSuccess();
     });
+
+    if (!response.ok) {
+      const errorMessage = await response.text();
+      throw new Error(errorMessage);
+    }
+
+    showFor4SecondsForSuccess();
   } catch (error) {
-    console.error("Error updating task:", error);
+    let errorCode = "User Updation Failed";
+    errorCodeElement.innerHTML = errorCode;
+    errorElement.innerText = error.message;
     showFor4SecondsForFailure();
   }
 }
@@ -98,17 +106,21 @@ async function fetchUserDetails(updateUserId) {
     });
 
     if (!response.ok) {
-      throw new Error(`Failed to fetch task details: ${response.status}`);
+      const errorMessage = await response.text();
+      throw new Error(errorMessage);
     }
 
     const userData = await response.json();
 
-    document.getElementById("userId").value = userData.userId;
+    document.getElementById("name").value = userData.name;
     document.getElementById("userName").value = userData.userName;
     document.getElementById("userMail").value = userData.userMail;
     document.getElementById("roleId").value = userData.roleId.roleId;
   } catch (error) {
-    console.error("Error fetching task details:", error);
+    let errorCode = "Fetching User Detail Failed";
+    errorCodeElement.innerHTML = errorCode;
+    errorElement.innerText = error.message;
+    showFor4SecondsForFailure();
   }
 }
 
