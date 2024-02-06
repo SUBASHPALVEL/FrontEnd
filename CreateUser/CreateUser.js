@@ -2,9 +2,12 @@ let updateUserId;
 const token = localStorage.getItem("token");
 updateUserId = localStorage.getItem("updateUserId");
 let roleIdOptionsFetched = false;
+
 const formContainer = document.getElementById("newUserForm");
 const successMessage = document.getElementById("successMessage");
 const failureMessage = document.getElementById("failureMessage");
+const errorElement = document.getElementById("errorMessage");
+const errorCodeElement = document.getElementById("errorCode");
 
 if (!roleIdOptionsFetched) {
   fetchRoleIdOptions();
@@ -24,7 +27,8 @@ async function fetchRoleIdOptions() {
     });
 
     if (!response.ok) {
-      throw new Error(`Failed to fetch status options: ${response.status}`);
+      const errorMessage = await response.text();
+      throw new Error(errorMessage);
     }
 
     const roleData = await response.json();
@@ -37,7 +41,10 @@ async function fetchRoleIdOptions() {
       roleSelect.appendChild(option);
     });
   } catch (error) {
-    console.error("Error fetching status options:", error);
+    let errorCode = "Fetching Roles Failed";
+    errorCodeElement.innerHTML = errorCode;
+    errorElement.innerText = error.message;
+    showFor4SecondsForFailure();
   }
 }
 
@@ -57,28 +64,30 @@ async function createUser(event) {
     roleId: roleObject,
   };
 
+
   try {
-    await fetch(apiUrl, {
+    const response = await fetch(apiUrl, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify(newUserData),
-    }).then((response) => {
-      if (!response.ok) {
-        console.log(response.status);
-        showFor4SecondsForFailure();
-        throw new Error(`Failed to update task: ${response.status}`);
-      }
-
-      console.log("Task updated successfully:");
-      showFor4SecondsForSuccess();
     });
+
+    if (!response.ok) {
+      const errorMessage = await response.text();
+      throw new Error(errorMessage);
+    }
+
+    showFor4SecondsForSuccess();
   } catch (error) {
-    console.error("Error updating task:", error);
+    let errorCode = "User Creation Failed";
+    errorCodeElement.innerHTML = errorCode;
+    errorElement.innerText = error.message;
     showFor4SecondsForFailure();
   }
+
 }
 
 function showFor4SecondsForSuccess() {

@@ -14,7 +14,7 @@
       <input type="text" id="name" name="name" required />
       <br />
 
-      <label for="userName">Username:</label>
+      <label for="userName">User Name:</label>
       <input type="text" id="userName" name="userName" required />
       <br />
 
@@ -26,7 +26,7 @@
       <input type="password" id="password" name="password" required />
       <br />
 
-      <label for="roleId">Role ID:</label>
+      <label for="roleId">Designation:</label>
       <select id="roleId"></select>
 
       <button class="button">Create User</button>
@@ -39,7 +39,8 @@
       </div>
 
       <div class="failure-message" id="failureMessage">
-        <p>User creation failed!</p>
+        <p id = "errorCode"></p>
+        <p id = "errorMessage" ></p>
       </div>
     </form>
 
