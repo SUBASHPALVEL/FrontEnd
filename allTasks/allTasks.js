@@ -55,9 +55,21 @@ function populateTable(data) {
                       <td>${task.priority.priorityStatus}</td>
                       <td>${task.status.statusLevel}</td>
                       <td>${new Date(task.createdAt).toLocaleDateString()}</td>
-                      <td>${task.lastModifiedAt ? new Date(task.lastModifiedAt).toLocaleDateString() : "N/A"}</td>
-                      <td>${task.dueAt ? new Date(task.dueAt).toLocaleDateString() : "N/A"}</td>
-                      <td>${task.completedAt ? new Date(task.completedAt).toLocaleDateString() : "N/A"}</td>
+                      <td>${
+                        task.lastModifiedAt
+                          ? new Date(task.lastModifiedAt).toLocaleDateString()
+                          : "N/A"
+                      }</td>
+                      <td>${
+                        task.dueAt
+                          ? new Date(task.dueAt).toLocaleDateString()
+                          : "N/A"
+                      }</td>
+                      <td>${
+                        task.completedAt
+                          ? new Date(task.completedAt).toLocaleDateString()
+                          : "N/A"
+                      }</td>
                       
                       <td>${task.assignedUsers
                         .map((user) => user.userName)
@@ -119,13 +131,11 @@ async function handleDelete(event) {
     errorElement.innerText = error.message;
     showFor4SecondsForFailure();
   }
-
 }
 
 function handleHome() {
   window.location.href = "../homepage/homepage.html";
 }
-
 
 function handleLogout() {
   window.location.href = "../login/login.html";
