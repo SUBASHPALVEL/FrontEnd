@@ -99,6 +99,8 @@ async function handleDelete(event) {
 
     showFor4SecondsForSuccess();
   } catch (error) {
+    let errorCode = "User Deletion Failed";
+    errorCodeElement.innerHTML = errorCode;
     errorElement.innerText = error.message;
     showFor4SecondsForFailure();
   }
