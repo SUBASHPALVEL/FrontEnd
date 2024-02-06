@@ -5,6 +5,8 @@ document.addEventListener("DOMContentLoaded", function () {
 const formContainer = document.getElementById("taskList");
 const successMessage = document.getElementById("successMessage");
 const failureMessage = document.getElementById("failureMessage");
+const errorElement = document.getElementById("errorMessage");
+const errorCodeElement = document.getElementById("errorCode");
 
 const token = localStorage.getItem("token");
 
@@ -22,13 +24,17 @@ async function fetchData() {
     });
 
     if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
+      const errorMessage = await response.text();
+      throw new Error(errorMessage);
     }
 
     const data = await response.json();
     populateTable(data);
   } catch (error) {
-    console.error("Error fetching data:", error);
+    let errorCode = "Fetching Tasks Failed";
+    errorCodeElement.innerHTML = errorCode;
+    errorElement.innerText = error.message;
+    showFor4SecondsForFailure();
   }
 }
 
@@ -48,10 +54,10 @@ function populateTable(data) {
                       <td>${task.description}</td>
                       <td>${task.priority.priorityStatus}</td>
                       <td>${task.status.statusLevel}</td>
-                      <td>${task.createdAt.split("T")[0]}</td>
-                      <td>${task.lastModifiedAt || "N/A"}</td>
-                      <td>${task.dueAt || "N/A"}</td>
-                      <td>${task.completedAt || "N/A"}</td>
+                      <td>${new Date(task.createdAt).toLocaleDateString()}</td>
+                      <td>${task.lastModifiedAt ? new Date(task.lastModifiedAt).toLocaleDateString() : "N/A"}</td>
+                      <td>${task.dueAt ? new Date(task.dueAt).toLocaleDateString() : "N/A"}</td>
+                      <td>${task.completedAt ? new Date(task.completedAt).toLocaleDateString() : "N/A"}</td>
                       
                       <td>${task.assignedUsers
                         .map((user) => user.userName)
@@ -93,29 +99,27 @@ async function handleDelete(event) {
   const apiUrl = `http://127.0.0.1:8080/api/tasks/${deleteTaskId}`;
 
   try {
-    await fetch(apiUrl, {
+    const response = await fetch(apiUrl, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
-    }).then((response) => {
-      if (!response.ok) {
-        console.log(response.status);
-        showFor4SecondsForFailure();
-        throw new Error(`Failed to delete user: ${response.status}`);
-      }
-
-      console.log("User deleted successfully:");
-      showFor4SecondsForSuccess();
-      console.log("show success:");
-
-      console.log("After fetching");
     });
+
+    if (!response.ok) {
+      const errorMessage = await response.text();
+      throw new Error(errorMessage);
+    }
+
+    showFor4SecondsForSuccess();
   } catch (error) {
-    console.error("Error updating task:", error);
+    let errorCode = "Task Deletion Failed";
+    errorCodeElement.innerHTML = errorCode;
+    errorElement.innerText = error.message;
     showFor4SecondsForFailure();
   }
+
 }
 
 function handleHome() {
