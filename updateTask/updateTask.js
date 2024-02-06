@@ -1,12 +1,16 @@
 const token = localStorage.getItem("token");
 const updateTaskId = localStorage.getItem("updateTaskId");
+
 let statusOptionsFetched = false;
 let priorityOptionsFetched = false;
 let TaskDetailsFetched = false;
+let previousPage = document.referrer;
+
 const formContainer = document.getElementById("taskUpdateForm");
 const successMessage = document.getElementById("successMessage");
 const failureMessage = document.getElementById("failureMessage");
-let previousPage = document.referrer;
+const errorElement = document.getElementById("errorMessage");
+const errorCodeElement = document.getElementById("errorCode");
 
 if (!statusOptionsFetched) {
   fetchStatusOptions();
@@ -36,7 +40,8 @@ async function fetchStatusOptions() {
     });
 
     if (!response.ok) {
-      throw new Error(`Failed to fetch status options: ${response.status}`);
+      const errorMessage = await response.text();
+      throw new Error(errorMessage);
     }
 
     const statusData = await response.json();
@@ -49,7 +54,10 @@ async function fetchStatusOptions() {
       statusSelect.appendChild(option);
     });
   } catch (error) {
-    console.error("Error fetching status options:", error);
+    let errorCode = "Fetching Status Failed";
+    errorCodeElement.innerHTML = errorCode;
+    errorElement.innerText = error.message;
+    showFor4SecondsForFailure();
   }
 }
 
@@ -66,7 +74,8 @@ async function fetchPriorityOptions() {
     });
 
     if (!response.ok) {
-      throw new Error(`Failed to fetch status options: ${response.status}`);
+      const errorMessage = await response.text();
+      throw new Error(errorMessage);
     }
 
     const priorityData = await response.json();
@@ -79,70 +88,106 @@ async function fetchPriorityOptions() {
       prioritySelect.appendChild(option);
     });
   } catch (error) {
-    console.error("Error fetching status options:", error);
+    let errorCode = "Fetching Priority Failed";
+    errorCodeElement.innerHTML = errorCode;
+    errorElement.innerText = error.message;
+    showFor4SecondsForFailure();
   }
 }
+
+function validateAssignedUsers(input) {
+  const userIDsStr = input.trim().split(",");
+  try {
+    if (userIDsStr.length === 0 || userIDsStr.every((id) => id === "")) {
+      throw new Error("Enter Value For Assigned Users");
+    }
+
+    const userIdRegex = /^\d+$/;
+    const invalidUserIDs = userIDsStr.filter(
+      (id) => !userIdRegex.test(id.trim())
+    );
+
+    if (invalidUserIDs.length > 0) {
+      throw new Error("Invalid Value For Assigned Users");
+    }
+
+    const userIDs = userIDsStr.map((id) => parseInt(id.trim()));
+
+    if (userIDs.some((id) => isNaN(id))) {
+      throw new Error("Invalid User ID Format For Assigned Users");
+    }
+
+    return true;
+  } catch (error) {
+    let errorCode = "Task Creation Failed";
+    errorCodeElement.innerHTML = errorCode;
+    errorElement.innerText = error.message;
+    showFor4SecondsForFailure();
+  }
+}
+
+
 
 async function updateTask(event) {
   event.preventDefault();
 
-  const apiUrl = `http://127.0.0.1:8080/api/tasks/${updateTaskId}`;
+  const isValidAssignedUsersArray = await validateAssignedUsers(
+    document.getElementById("assignedUsers").value
+  );
+  console.log(isValidAssignedUsersArray);
 
-  const assignedUsersArray = document
-    .getElementById("assignedUsers")
-    .value.split(",")
-    .map((user) => user.trim());
+  if (isValidAssignedUsersArray) {
+    const apiUrl = `http://127.0.0.1:8080/api/tasks/${updateTaskId}`;
 
-  const priorityString = document.getElementById("priority").value;
-  const priorityObject = { priorityId: parseInt(priorityString, 10) };
+    const assignedUsersArray = document
+      .getElementById("assignedUsers")
+      .value.split(",")
+      .map((user) => user.trim());
 
-  const statusString = document.getElementById("status").value;
-  const statusObject = { statusId: parseInt(statusString, 10) };
+    const priorityString = document.getElementById("priority").value;
+    const priorityObject = { priorityId: parseInt(priorityString, 10) };
 
-  const today = new Date();
-  const modifiedDate = today.toISOString().split("T")[0];
+    const statusString = document.getElementById("status").value;
+    const statusObject = { statusId: parseInt(statusString, 10) };
 
-  const updatedTask = {
-    title: document.getElementById("title").value,
-    description: document.getElementById("description").value,
+    const updatedTask = {
+      title: document.getElementById("title").value,
+      description: document.getElementById("description").value,
 
-    status: statusObject,
-    priority: priorityObject,
+      status: statusObject,
+      priority: priorityObject,
 
-    modifiedDate: modifiedDate,
+      dueAt: document.getElementById("dueDate").value,
+      assignedUsers: assignedUsersArray.map((userId) => {
+        return { userId: parseInt(userId) };
+      }),
+    };
 
-    dueDate: document.getElementById("dueDate").value,
-    completedDate: document.getElementById("completedDate").value,
-    assignedUsers: assignedUsersArray.map((userId) => {
-      return { userId: parseInt(userId) };
-    }),
-  };
+    try {
+      const response = await fetch(apiUrl, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedTask),
+      });
 
-  console.log(updatedTask);
-
-  try {
-    fetch(apiUrl, {
-      method: "PUT",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(updatedTask),
-    }).then((response) => {
       if (!response.ok) {
-        console.log(response.status);
-        showFor4SecondsForFailure();
-        throw new Error(`Failed to update task: ${response.status}`);
+        const errorMessage = await response.text();
+        throw new Error(errorMessage);
       }
 
-      console.log("Task updated successfully:");
       showFor4SecondsForSuccess();
-    });
-  } catch (error) {
-    console.error("Error updating task:", error);
-    showFor4SecondsForFailure();
+    } catch (error) {
+      let errorCode = "Task Updation Failed";
+      errorCodeElement.innerHTML = errorCode;
+      errorElement.innerText = error.message;
+      showFor4SecondsForFailure();
+    }
   }
 }
+
 
 async function fetchTaskDetails(updateTaskId) {
   const apiUrl = `http://127.0.0.1:8080/api/tasks/${updateTaskId}`;
@@ -157,23 +202,25 @@ async function fetchTaskDetails(updateTaskId) {
     });
 
     if (!response.ok) {
-      throw new Error(`Failed to fetch task details: ${response.status}`);
+      const errorMessage = await response.text();
+      throw new Error(errorMessage);
     }
 
     const taskData = await response.json();
 
-    document.getElementById("taskId").value = taskData.taskId;
     document.getElementById("title").value = taskData.title;
     document.getElementById("description").value = taskData.description;
     document.getElementById("status").value = taskData.status.statusId;
     document.getElementById("priority").value = taskData.priority.priorityId;
-    document.getElementById("dueDate").value = taskData.dueDate;
-    document.getElementById("completedDate").value = taskData.completedDate;
+    document.getElementById("dueDate").value = taskData.dueAt;
     document.getElementById("assignedUsers").value = taskData.assignedUsers
       .map((user) => user.userId)
       .join(" ,");
   } catch (error) {
-    console.error("Error fetching task details:", error);
+    let errorCode = "Fetching Task Details Failed";
+    errorCodeElement.innerHTML = errorCode;
+    errorElement.innerText = error.message;
+    showFor4SecondsForFailure();
   }
 }
 
