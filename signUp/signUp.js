@@ -38,7 +38,6 @@ async function createUser(event) {
     errorElement.innerText = error.message;
     showFor4SecondsForFailure();
     console.error("Error updating task:", error);
-    showFor4SecondsForFailure();
   }
 
 }

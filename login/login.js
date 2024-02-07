@@ -4,6 +4,7 @@ const passwordError = document.querySelector("#passwordError");
 const successMessage = document.getElementById("successMessage");
 const failureMessage = document.getElementById("failureMessage");
 const formContainer = document.querySelector(".container");
+const errorElement = document.getElementById('errorMessage');
 
 let userName;
 let password;
@@ -22,31 +23,43 @@ loginButton.addEventListener("click", async (e) => {
   }
 });
 
-function login() {
-  fetch("http://127.0.0.1:8080/auth/admin/login", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ userName, password }),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      if (data.userId == undefined) {
-        console.log("No user");
-        showFor4SecondsForFailure();
-        resetForm();
-      } else {
-        localStorage.setItem("userId", data.userId);
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("isAdmin", data.roleId.roleId);
-        console.log(data.roleId.roleId);
-        showFor4SecondsForSuccess();
-      }
-    })
-    .catch((error) => {
-      console.error("Error:", error);
+async function login() {
+
+
+  const apiUrl = "http://127.0.0.1:8080/auth/admin/login";
+
+  try {
+    const response = await fetch(apiUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ userName, password }),
     });
+  
+    if (!response.ok) {
+      const errorMessage = await response.text();
+      throw new Error(errorMessage);
+    }
+    let data= await response.json();
+    if (data.userId == undefined) {
+      resetForm();
+      throw new Error("Invalid user");
+    } else {
+      localStorage.setItem("userId", data.userId);
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("isAdmin", data.roleId.designation);
+      showFor4SecondsForSuccess();
+    }
+
+
+
+  } catch (error) {
+    errorElement.innerText = error.message;
+    showFor4SecondsForFailure();
+    console.error("Error updating task:", error);
+  }
+
 }
 
 function showFor4SecondsForSuccess() {

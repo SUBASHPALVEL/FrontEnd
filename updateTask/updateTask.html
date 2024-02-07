@@ -10,8 +10,6 @@
     <form id="taskUpdateForm" onsubmit="updateTask(event)">
       <div id="container">
         <h1>Update Task</h1>
-        <label for="taskId">Task ID:</label>
-        <input type="text" id="taskId" placeholder="Enter task ID" />
 
         <label for="title">Title:</label>
         <input type="text" id="title" placeholder="Enter task title" />
@@ -30,9 +28,6 @@
 
         <label for="dueDate">Due Date:</label>
         <input type="datetime-local" id="dueDate" />
-
-        <label for="completedDate">Completed Date:</label>
-        <input type="date" id="completedDate" />
 
         <label for="assignedUsers">Assigned Users:</label>
         <input
@@ -54,7 +49,8 @@
       </div>
 
       <div class="failure-message" id="failureMessage">
-        <p>Task Update Failed!</p>
+        <p id = "errorCode"></p>
+        <p id = "errorMessage" ></p>
       </div>
     </form>
 

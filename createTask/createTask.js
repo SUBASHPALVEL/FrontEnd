@@ -1,11 +1,10 @@
 const formContainer = document.getElementById("taskCreationForm");
 const successMessage = document.getElementById("successMessage");
 const failureMessage = document.getElementById("failureMessage");
+const errorElement = document.getElementById("errorMessage");
+const errorCodeElement = document.getElementById("errorCode");
 
 const token = localStorage.getItem("token");
-
-let createdDate = new Date().toISOString().split("T")[0];
-let completedDate = null;
 
 let statusOptionsFetched = false;
 let priorityOptionsFetched = false;
@@ -20,60 +19,65 @@ if (!priorityOptionsFetched) {
   priorityOptionsFetched = true;
 }
 
-function createTask(event) {
+async function createTask(event) {
   event.preventDefault();
-  const apiUrl = "http://127.0.0.1:8080/api/tasks";
 
-  const assignedUsersArray = document
-    .getElementById("assignedUsers")
-    .value.split(",")
-    .map((user) => user.trim());
+  const isValidAssignedUsersArray = await validateAssignedUsers(
+    document.getElementById("assignedUsers").value
+  );
+  console.log(isValidAssignedUsersArray);
 
-  const priorityString = document.getElementById("priority").value;
-  const priorityObject = { priorityId: parseInt(priorityString, 10) };
+  if (isValidAssignedUsersArray) {
+    const apiUrl = "http://127.0.0.1:8080/api/tasks";
 
-  const statusString = document.getElementById("status").value;
-  const statusObject = { statusId: parseInt(statusString, 10) };
+    const assignedUsersArray = document
+      .getElementById("assignedUsers")
+      .value.split(",")
+      .map((user) => user.trim());
 
-  const today = new Date();
-  const createdDate = today.toISOString().split("T")[0];
+    const priorityString = document.getElementById("priority").value;
+    const priorityObject = { priorityId: parseInt(priorityString, 10) };
 
-  const newTask = {
-    title: document.getElementById("title").value,
-    description: document.getElementById("description").value,
+    const statusString = document.getElementById("status").value;
+    const statusObject = { statusId: parseInt(statusString, 10) };
 
-    status: statusObject,
-    priority: priorityObject,
+    const newTask = {
+      title: document.getElementById("title").value,
+      description: document.getElementById("description").value,
 
-    createdDate: createdDate,
+      status: statusObject,
+      priority: priorityObject,
 
-    dueDate: document.getElementById("dueDate").value,
-    assignedUsers: assignedUsersArray.map((userId) => {
-      return { userId: parseInt(userId) };
-    }),
-  };
+      dueAt: document.getElementById("dueDate").value,
+      assignedUsers: assignedUsersArray.map((userId) => {
+        return { userId: parseInt(userId) };
+      }),
+    };
+    console.log(newTask);
+    console.log("subash");
 
-  try {
-    fetch(apiUrl, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newTask),
-    }).then((response) => {
+    try {
+      const response = await fetch(apiUrl, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newTask),
+      });
+
       if (!response.ok) {
-        console.log(response.status);
-        showFor4SecondsForFailure();
-        throw new Error(`Failed to create task: ${response.status}`);
+        const errorMessage = await response.text();
+        throw new Error(errorMessage);
       }
 
-      console.log("Task created successfully:");
       showFor4SecondsForSuccess();
-    });
-  } catch (error) {
-    console.error("Error creating task:", error);
-    showFor4SecondsForFailure();
+    } catch (error) {
+      let errorCode = "Task Creation Failed";
+      errorCodeElement.innerHTML = errorCode;
+      errorElement.innerText = error.message;
+      showFor4SecondsForFailure();
+    }
   }
 }
 
@@ -90,7 +94,8 @@ async function fetchStatusOptions() {
     });
 
     if (!response.ok) {
-      throw new Error(`Failed to fetch status options: ${response.status}`);
+      const errorMessage = await response.text();
+      throw new Error(errorMessage);
     }
 
     const statusData = await response.json();
@@ -103,7 +108,10 @@ async function fetchStatusOptions() {
       statusSelect.appendChild(option);
     });
   } catch (error) {
-    console.error("Error fetching status options:", error);
+    let errorCode = "Fetching Status Failed";
+    errorCodeElement.innerHTML = errorCode;
+    errorElement.innerText = error.message;
+    showFor4SecondsForFailure();
   }
 }
 
@@ -120,7 +128,8 @@ async function fetchPriorityOptions() {
     });
 
     if (!response.ok) {
-      throw new Error(`Failed to fetch status options: ${response.status}`);
+      const errorMessage = await response.text();
+      throw new Error(errorMessage);
     }
 
     const priorityData = await response.json();
@@ -133,18 +142,42 @@ async function fetchPriorityOptions() {
       prioritySelect.appendChild(option);
     });
   } catch (error) {
-    console.error("Error fetching status options:", error);
+    let errorCode = "Fetching Priority Failed";
+    errorCodeElement.innerHTML = errorCode;
+    errorElement.innerText = error.message;
+    showFor4SecondsForFailure();
   }
 }
 
 function validateAssignedUsers(input) {
-  const userIDs = input.split(",").map((id) => parseInt(id.trim()));
+  const userIDsStr = input.trim().split(",");
+  try {
+    if (userIDsStr.length === 0 || userIDsStr.every((id) => id === "")) {
+      throw new Error("Enter Value For Assigned Users");
+    }
 
-  if (userIDs.some(isNaN)) {
-    return null;
+    const userIdRegex = /^\d+$/;
+    const invalidUserIDs = userIDsStr.filter(
+      (id) => !userIdRegex.test(id.trim())
+    );
+
+    if (invalidUserIDs.length > 0) {
+      throw new Error("Invalid Value For Assigned Users");
+    }
+
+    const userIDs = userIDsStr.map((id) => parseInt(id.trim()));
+
+    if (userIDs.some((id) => isNaN(id))) {
+      throw new Error("Invalid User ID Format For Assigned Users");
+    }
+
+    return true;
+  } catch (error) {
+    let errorCode = "Task Creation Failed";
+    errorCodeElement.innerHTML = errorCode;
+    errorElement.innerText = error.message;
+    showFor4SecondsForFailure();
   }
-
-  return userIDs.map((id) => ({ userId: id }));
 }
 
 function showFor4SecondsForSuccess() {
