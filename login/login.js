@@ -43,14 +43,12 @@ async function login() {
     }
     let data= await response.json();
     if (data.userId == undefined) {
-      console.log("No user");
       resetForm();
-      throw new Error(errorMessage);
+      throw new Error("Invalid user");
     } else {
       localStorage.setItem("userId", data.userId);
       localStorage.setItem("token", data.token);
-      localStorage.setItem("isAdmin", data.roleId.roleId);
-      console.log(data.roleId.roleId);
+      localStorage.setItem("isAdmin", data.roleId.designation);
       showFor4SecondsForSuccess();
     }
 

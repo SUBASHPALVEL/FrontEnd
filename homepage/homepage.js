@@ -12,7 +12,7 @@ const isAdmin = localStorage.getItem("isAdmin");
 function checkAdminAndDisplayButtons() {
   let buttonsToDisplay = ["All Users", "All Tasks", "User's Tasks", "Create Task","Create User", "Change Password"];
 
-  if (isAdmin === "1") {
+  if (isAdmin === "ADMIN") {
     buttonsToDisplay.forEach(function(buttonText) {
       showButton(buttonText);
     });
