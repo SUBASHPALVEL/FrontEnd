@@ -26,16 +26,16 @@ async function fetchData() {
 
     if (!response.ok) {
       const errorMessage = await response.text();
-      let errorCode = "Fetching Tasks Failed";
-      errorCodeElement.innerHTML = errorCode;
-      errorElement.innerText = error.message;
-      showFor4SecondsForFailure();
+      throw new Error(errorMessage);
     }
 
     const data = await response.json();
     populateTable(data);
   } catch (error) {
-    console.error("Error fetching data:", error);
+    let errorCode = "Fetching Tasks Failed";
+    errorCodeElement.innerHTML = errorCode;
+    errorElement.innerText = error.message;
+    showFor4SecondsForFailure();
   }
 }
 
